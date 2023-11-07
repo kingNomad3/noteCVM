@@ -118,7 +118,6 @@ def width(self, value):
     self.__width = self.check_size(value)
 
 test = Gestion(6, 30)
-# ▲
 test.resize(4,10)
 print(test)
 test.life_or_death()
