@@ -1,0 +1,1 @@
+pour ouvrire le serveur php -S localhost:8000
