@@ -102,3 +102,97 @@ Cet exemple introductif prÃ©sente comment crÃ©er une application de type sÃ
     - on peut connecter un signal a n slot 
     - on peut aussi avoir m vers n  
 
+
+
+sb.valueChanged.connect dans le passer to look up
+from feature import snake_case, proprety
+signaux en camel case
+
+# Cheat Sheet for QT with Pyside6
+
+## Basics
+
+### Import PySide6
+
+```python
+    from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel
+
+```
+
+### Creating an app
+
+```python
+    app = QApplication([])
+```
+
+### Creating a Main Window
+
+```python
+    main_window = QMainWindow()
+```
+
+### Creating Widget
+
+```python
+    button = QPushButton("Click me", main_window)
+    label = QLabel("Hello, PySide6!", main_window)
+```
+
+### Signals ans Slots Connections
+
+```python
+   button.clicked.connect(handle_button_click)
+
+```
+
+### Starting the Event Loop
+
+```python
+   app.exec()
+```
+
+## Widgets
+
+### Labels
+
+```python
+   label = QLabel("Hello, PySide6!", main_window)
+   label.setText("New text")
+```
+
+### Buttons
+
+```python
+    button = QPushButton("Click me", main_window)
+    # obj.signal.connect(slot)
+    button.clicked.connect(handle_button_click)
+```
+
+### Layouts
+
+```python
+    layout = QVBoxLayout()
+    layout.addWidget(widget)
+    main_window.setLayout(layout)
+```
+
+## Signals and Slots
+
+### Custom Slots
+
+```python
+    def handle_button_click():
+    label.setText("Button clicked!")
+    # there are built-in signals like clicked and textChanged
+```
+
+## Dialogs
+
+### Message Box
+
+```python
+   from PySide6.QtWidgets import QMessageBox
+   
+    QMessageBox.information(main_window, "Information", "This is an information message.")
+
+```

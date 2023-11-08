@@ -1,25 +1,6 @@
-# width 10 mais doit etre modulaire
-# height 6 mais doit etre modulaire
-# vivant-mort pour uen case de la matrice
-# randomize les case de la matrice selon vivant-mort
-
-# on ignore les contours aka contour tjrs dead
-
-# lorsqu'on verifie les voisins on cree une nouvelle matrice pour faire les verifications
-
-# loop a travers une matrice double
-
-# pour une case check le nombre de voisins vivants
-# si vivant
-#   si nb vivant 2, 3 alors vivant
-# else mort
-
-# si mort
-#   si nb voisin vivant = 3
-#   else mort
-
 import random
 import sys
+from typing import Optional
 from PySide6.QtCore import QTimer, Qt
 from PySide6.QtGui import QPainter, QPixmap, QColor
 from PySide6.QtWidgets import (QApplication, QMainWindow, QLabel, QGridLayout, QVBoxLayout, QHBoxLayout,QLineEdit,
@@ -121,29 +102,25 @@ print(test)
 test.life_or_death()
 SQUARE_SIZE = 20
 
-class GameOfLifeWindow(QMainWindow):
-    def __init__(self, gestion):
-        super().__init__()
 
+
+class GameOfLifeWindow(QMainWindow):
+    def __init__(self,gestion):
+        super().__init__()
+        
         self.gestion = gestion
         self.initUI()
-
+        
     def initUI(self):
-         # Définir le titre et la taille initiale de la fenêtre
-        self.setWindowTitle("Jeu de la vie")
-        self.setGeometry(100, 100, self.gestion.width * SQUARE_SIZE, self.gestion.height * SQUARE_SIZE)
-
-        # Créer le widget central et définir la disposition en grille
+        self.setWindowTitle("Game of life")
+        
         self.central_widget = QWidget(self)
         self.setCentralWidget(self.central_widget)
-        self.grid_layout = QGridLayout(self.central_widget)
-        self.central_widget.setLayout(self.grid_layout)
-        self.central_widget.setStyleSheet("background-color: black;")
-   
         
+        self.cmdLayout = QVBoxLayout()
+        self.matrixLayout= QVBoxLayout()
         
-
-        # Initialiser les objets QLineEdit pour la saisie utilisateur sur la taille de la grille
+            
         self.input_height = QLineEdit(self)
         self.input_width = QLineEdit(self)
         self.input_height.setStyleSheet("color: white;")  # Définir la couleur du texte en blanc
@@ -152,72 +129,12 @@ class GameOfLifeWindow(QMainWindow):
         # Initialiser le bouton QPushButton pour redimensionner la grille
         self.resize_button = QPushButton('Redimensionner', self)
         self.resize_button.setStyleSheet("background-color: grey; color: white;")  # Bouton avec fond gris et texte blanc
-        self.resize_button.clicked.connect(self.on_resize_clicked)
+        # self.resize_button.clicked.connect(self.on_resize_clicked)
 
-        # Ajouter les widgets liés à la redimension à la disposition en grille
-        # self.cmd_layout = QGridLayout(self.central_widget)
         
-        
-        self.grid_layout.addWidget(QLabel('Hauteur :'), 1, 0)
-        self.grid_layout.addWidget(self.input_height, 1, 1)
-        self.grid_layout.addWidget(QLabel('Largeur :'), 2, 0)
-        self.grid_layout.addWidget(self.input_width, 2, 1)
-        self.grid_layout.addWidget(self.resize_button, 3, 0, 1, 2)
-
-        # Ajouter le bouton de démarrage à la disposition
-        self.start_button = QPushButton('Démarrer', self)
-        self.start_button.setStyleSheet("background-color: grey; color: white;")  # Bouton de démarrage avec fond gris et texte blanc
-        self.start_button.clicked.connect(self.start_game)
-        self.grid_layout.addWidget(self.start_button, 0, 0, 1, 2)
-
-        # Timer pour contrôler quand le jeu commence
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.update_game)
-        
-        
-
-
-        # Initialiser les carrés pour la grille
-        self.squares = [[QLabel(self.central_widget) for _ in range(self.gestion.width)] for _ in range(self.gestion.height)]
-        for i in range(self.gestion.height):
-            for j in range(self.gestion.width):
-                pixmap = QPixmap(SQUARE_SIZE, SQUARE_SIZE)
-                self.squares[i][j].setPixmap(pixmap)
-                self.grid_layout.addWidget(self.squares[i][j], i + 4, j) 
-
-        self.draw_matrix()
-
-    def start_game(self):
-        # self.gestion.reset_grid()
-        # Cette méthode est appelée lorsque le bouton de démarrage est cliqué
-        if self.timer.isActive():
-            self.timer.stop()
-            self.start_button.setText('Démarrer')
-        else:
-            self.timer.start(100)  # Mise à jour toutes les 100 millisecondes
-            self.start_button.setText('Arrêter')
-
-    def update_game(self):
-        # Mettre à jour le jeu
-        self.gestion.life_or_death()
-        self.draw_matrix()
-       
-    def draw_matrix(self):
-        # Dessiner la matrice
-        for i in range(self.gestion.height):
-            for j in range(self.gestion.width):
-                color = QColor(0, 0, 0) if self.gestion.matrice[i][j] == 0 else QColor(255, 255, 255)
-                self.paint_square(i, j, color)
-
-    def on_resize_clicked(self):
-        # Cette méthode est appelée lorsque le bouton de redimensionnement est cliqué
-        new_height = int(self.input_height.text())
-        new_width = int(self.input_width.text())
-
-        # Valider la saisie puis redimensionner
-        self.gestion.resize(new_height, new_width)
-        self.recreate_grid()
-
+        self.cmdLayout.addWidget(self.input_height)
+    
+    
     def recreate_grid(self):
         # Effacer la grille existante et en créer une nouvelle
         for i in reversed(range(self.grid_layout.count())): 
@@ -230,20 +147,8 @@ class GameOfLifeWindow(QMainWindow):
 
         # Dessiner la nouvelle matrice
         self.draw_matrix()
-
-    def paint_square(self, i, j, color):
-        # Peindre un carré
-        pixmap = QPixmap(SQUARE_SIZE, SQUARE_SIZE)
-        pixmap.fill(Qt.transparent)
-        painter = QPainter(pixmap)
-        painter.fillRect(0, 0, SQUARE_SIZE, SQUARE_SIZE, color)
-        painter.end()
-        self.squares[i][j].setPixmap(pixmap)
-
-    
-  
         
-
+        
 def main():
     app = QApplication(sys.argv)
     gestion = Gestion(6, 10) 
@@ -253,11 +158,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-# Qgroupbox,
-# Qpush butoon stop start  
-# Qscroll bar ralentie ou accelere 
-
-
