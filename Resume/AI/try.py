@@ -116,25 +116,83 @@ class GameOfLifeWindow(QMainWindow):
         
         self.central_widget = QWidget(self)
         self.setCentralWidget(self.central_widget)
+
         
         self.cmdLayout = QVBoxLayout()
+        self.cmdLayout.addStretch()
+        
         self.matrixLayout= QVBoxLayout()
         
             
-        self.input_height = QLineEdit(self)
-        self.input_width = QLineEdit(self)
-        self.input_height.setStyleSheet("color: white;")  # Définir la couleur du texte en blanc
-        self.input_width.setStyleSheet("color: white;")   # Définir la couleur du texte en blanc
+    
+        # Ajouter le bouton de démarrage à la disposition
+        self.start_button = QPushButton("Démarrer",self)
+        self.start_button.setStyleSheet("background-color: grey; color: white;")  # Bouton de démarrage avec fond gris et texte blanc
+        # self.start_button.clicked(self.start_game)
+        self.cmdLayout.addWidget(self.start_button)
 
         # Initialiser le bouton QPushButton pour redimensionner la grille
         self.resize_button = QPushButton('Redimensionner', self)
         self.resize_button.setStyleSheet("background-color: grey; color: white;")  # Bouton avec fond gris et texte blanc
         # self.resize_button.clicked.connect(self.on_resize_clicked)
+        self.cmdLayout.addWidget(self.resize_button)
 
         
+        self.input_height = QLineEdit(self)
+        self.input_width = QLineEdit(self)
+        self.input_height.setStyleSheet("color: black;")  # Définir la couleur du texte en blanc
+        self.input_width.setStyleSheet("color: black;")   # Définir la couleur du texte en blanc
+      
+        
+
+
+        self.central_widget.setLayout(self.cmdLayout)
+        self.central_widget.setLayout(self.matrixLayout)
+        self.cmdLayout.addWidget(QLabel("Hauteur"))
         self.cmdLayout.addWidget(self.input_height)
-    
-    
+        self.cmdLayout.addWidget(QLabel("Grosseur"))
+        self.cmdLayout.addWidget(self.input_width)
+        
+        self.squares = [[QLabel(self.matrixLayout) for _ in range(self.gestion.width)] for _ in range(self.gestion.height)]
+        for i in range(self.gestion.height):
+            for j in range(self.gestion.width):
+                pixmap = QPixmap(SQUARE_SIZE, SQUARE_SIZE)
+                self.squares[i][j].setPixmap(pixmap)
+                self.matrixLayout.addWidget(self.squares[i][j], i + 4, j) 
+
+        self.draw_matrix()
+        
+    def start_game(self):
+        # self.gestion.reset_grid()
+        # Cette méthode est appelée lorsque le bouton de démarrage est cliqué
+        if self.timer.isActive():
+            self.timer.stop()
+            self.start_button.setText('Démarrer')
+        else:
+            self.timer.start(100)  # Mise à jour toutes les 100 millisecondes
+            self.start_button.setText('Arrêter')
+
+    def update_game(self):
+        # Mettre à jour le jeu
+        self.gestion.life_or_death()
+        self.draw_matrix()
+       
+    def draw_matrix(self):
+        # Dessiner la matrice
+        for i in range(self.gestion.height):
+            for j in range(self.gestion.width):
+                color = QColor(0, 0, 0) if self.gestion.matrice[i][j] == 0 else QColor(255, 255, 255)
+                self.paint_square(i, j, color)
+
+    def on_resize_clicked(self):
+        # Cette méthode est appelée lorsque le bouton de redimensionnement est cliqué
+        new_height = int(self.input_height.text())
+        new_width = int(self.input_width.text())
+
+        # Valider la saisie puis redimensionner
+        self.gestion.resize(new_height, new_width)
+        self.recreate_grid()
+
     def recreate_grid(self):
         # Effacer la grille existante et en créer une nouvelle
         for i in reversed(range(self.grid_layout.count())): 
@@ -147,6 +205,15 @@ class GameOfLifeWindow(QMainWindow):
 
         # Dessiner la nouvelle matrice
         self.draw_matrix()
+
+    def paint_square(self, i, j, color):
+        # Peindre un carré
+        pixmap = QPixmap(SQUARE_SIZE, SQUARE_SIZE)
+        pixmap.fill(Qt.transparent)
+        painter = QPainter(pixmap)
+        painter.fillRect(0, 0, SQUARE_SIZE, SQUARE_SIZE, color)
+        painter.end()
+        self.squares[i][j].setPixmap(pixmap)
         
         
 def main():

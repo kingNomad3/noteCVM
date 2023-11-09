@@ -119,7 +119,7 @@ test = Gestion(6, 30)
 test.resize(4,10)
 print(test)
 test.life_or_death()
-SQUARE_SIZE = 20
+SQUARE_SIZE = 5
 
 class GameOfLifeWindow(QMainWindow):
     def __init__(self, gestion):
@@ -156,7 +156,6 @@ class GameOfLifeWindow(QMainWindow):
 
         # Ajouter les widgets liés à la redimension à la disposition en grille
         # self.cmd_layout = QGridLayout(self.central_widget)
-        
         
         self.grid_layout.addWidget(QLabel('Hauteur :'), 1, 0)
         self.grid_layout.addWidget(self.input_height, 1, 1)
