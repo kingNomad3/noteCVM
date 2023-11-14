@@ -9,11 +9,52 @@ Paramètres du SimpleAdapter :
 ```java
 public SimpleAdapter(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to)
 ```
+```java
+
+public class MainActivity extends AppCompatActivity {
+
+    // ImageView imageView;
+    // Spinner spinner;
+
+    // // Groupe[] liste = {new Groupe ("c23", R.drawable.c23),new Groupe("c34", R.drawable.c34),new Groupe("c44", R.drawable.c44)  };
+    // Groupe groupeSelect;
+    // Boolean firstEntry;
+
+    int index;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        imageView = findViewById(R.id.imageView);
+        spinner = findViewById(R.id.spinner);
+
+        Vector<String> vec = new Vector<>();
+        for ( Groupe g : liste)
+        {
+            vec.add(g.getNomCours());
+        }
+
+
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,vec );
+        spinner.setAdapter(adapter);
+
+        setImage();
+        firstEntry = true;
+
+        Ecouteur ec = new Ecouteur();
+        spinner.setOnItemSelectedListener(ec);
+
+    }
+```
 - context : Le contexte dans lequel la vue associée à ce SimpleAdapter s'exécute.
 - data : Une liste de Map. Chaque entrée correspond à une ligne de la liste.
 - resource : Identifiant de ressource d'une disposition de vue qui définit les vues pour cet élément de liste.
 - from : Une liste de noms de colonnes ajoutés à la carte associée à chaque élément.
 - to : Les vues qui doivent afficher la colonne dans le paramètre from.
+
+
 ## Paramètre "data" de SimpleAdapter :
 
  - Le 2e paramètre "data" doit contenir les données à afficher dans la liste, sous forme de List de Maps.
@@ -89,69 +130,8 @@ public class MainActivity extends AppCompatActivity {
 ```
 
 ```java
-public class MainActivity extends AppCompatActivity {
 
-    ImageView imageView;
-    Spinner spinner;
-
-    Groupe[] liste = {new Groupe ("c23", R.drawable.c23),new Groupe("c34", R.drawable.c34),new Groupe("c44", R.drawable.c44)  };
-    Groupe groupeSelect;
-    Boolean firstEntry;
-
-    int index;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        imageView = findViewById(R.id.imageView);
-        spinner = findViewById(R.id.spinner);
-
-        Vector<String> vec = new Vector<>();
-        for ( Groupe g : liste)
-        {
-            vec.add(g.getNomCours());
-        }
-
-
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,vec );
-        spinner.setAdapter(adapter);
-
-        setImage();
-        firstEntry = true;
-
-        Ecouteur ec = new Ecouteur();
-        spinner.setOnItemSelectedListener(ec);
-
-    }
-    private class Ecouteur implements AdapterView.OnItemSelectedListener
-    {
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            ObjectOutputStream oos;
-            index = position;
-            if (firstEntry == false){
-                try{
-                    groupeSelect = liste[position];
-                    FileOutputStream fos = openFileOutput("fichier.ser", Context.MODE_PRIVATE);
-                    oos = new ObjectOutputStream(fos);
-                    oos.writeObject(groupeSelect);
-                    oos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            setImage();
-            firstEntry = false;
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-    }
+   
 
     private void setImage(){
         try{

@@ -279,3 +279,33 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 ```
+
+```java
+ private class Ecouteur implements AdapterView.OnItemSelectedListener
+    {
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            ObjectOutputStream oos;
+            index = position;
+            if (firstEntry == false){
+                try{
+                    groupeSelect = liste[position];
+                    FileOutputStream fos = openFileOutput("fichier.ser", Context.MODE_PRIVATE);
+                    oos = new ObjectOutputStream(fos);
+                    oos.writeObject(groupeSelect);
+                    oos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            setImage();
+            firstEntry = false;
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    }
+```
