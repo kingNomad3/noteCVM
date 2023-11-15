@@ -1,4 +1,4 @@
-# numpy
+# numpy(important a l'examen )
 
 - une des library les plus utiliser en python
 - sert a gerer le calcule numerique (avec du data)  et non symbolique
