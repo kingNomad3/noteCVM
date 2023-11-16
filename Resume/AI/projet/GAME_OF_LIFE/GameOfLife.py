@@ -81,6 +81,10 @@ class Gestion:
                 else:  # Si la cellule est morte
                     new_matrice[i][j] = 1 if alive_voisin == 3 else 0
         self.matrice = new_matrice
+        # center = self.matrice[1:-1]
+        # left = self.matrice[0:2]
+        # right = self.matrice[2:]
+        # return left + right
 
 
     def __str__(self):
