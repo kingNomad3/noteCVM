@@ -13,7 +13,7 @@
 
 #### Nouvelle technique (`startActivityForResult`):
 - **Activité de départ (`AccueilActivity`):**
-  - Déclarer et créer un objet `ActivityResultLauncher<Intent>`.
+  - Déclarer et créer un objet `ActivityResultLauncher<IntentIntentIntentIntentIntentIntentIntentIntentIntentIntent>`.
   - Lancer un intent avec `launch` lors du clic sur le bouton.
 
 - **Activité de destination (`IdentificationActivity`):**
