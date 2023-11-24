@@ -115,33 +115,34 @@ class GameOfLifeWindow(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle("Game of life")
+        self.setWindowTitle("Jeu de la vie")
 
         self.central_widget = QWidget(self)
         self.setCentralWidget(self.central_widget)
 
+        # Définir la couleur de fond du widget central en noir
         self.central_widget.setStyleSheet("background-color: black;")
 
-        # Create a horizontal layout for the central widget
+        # Créer une disposition horizontale pour le widget central
         self.central_layout = QHBoxLayout(self.central_widget)
         self.central_widget.setLayout(self.central_layout)
 
-        # Create a vertical layout for the buttons
+        # Créer une disposition verticale pour les boutons
         self.button_layout = QVBoxLayout()
 
-        # Add the start button to the button layout
+        # Ajouter le bouton de démarrage à la disposition des boutons
         self.start_button = QPushButton("Démarrer", self)
         self.start_button.setStyleSheet("background-color: grey; color: white;")
         self.start_button.clicked.connect(self.start_game)
         self.button_layout.addWidget(self.start_button)
 
-        # Add the resize button to the button layout
+        # Ajouter le bouton de redimensionnement à la disposition des boutons
         self.resize_button = QPushButton('Redimensionner', self)
         self.resize_button.setStyleSheet("background-color: grey; color: white;")
         self.resize_button.clicked.connect(self.on_resize_clicked)
         self.button_layout.addWidget(self.resize_button)
 
-        # Add labels and input fields for height and width
+        # Ajouter des étiquettes et des champs de saisie pour la hauteur et la largeur
         self.button_layout.addWidget(QLabel("Hauteur"))
         self.input_height = QLineEdit(self)
         self.input_height.setStyleSheet("color: white;")
@@ -152,16 +153,16 @@ class GameOfLifeWindow(QMainWindow):
         self.input_width.setStyleSheet("color: white;")
         self.button_layout.addWidget(self.input_width)
 
-        # Add the button layout to the central layout
+        # Ajouter la disposition des boutons à la disposition centrale
         self.central_layout.addLayout(self.button_layout)
 
-        # Create a grid layout for the matrix of squares
+        # Créer une disposition en grille pour la matrice de carrés
         self.matrix_layout = QGridLayout()
 
-        # Add the matrix layout to the central layout
+        # Ajouter la disposition de la matrice à la disposition centrale
         self.central_layout.addLayout(self.matrix_layout)
 
-        # Initialize the squares for the grid
+        # Initialiser les carrés pour la grille
         self.squares = [[QLabel(self.central_widget) for _ in range(self.gestion.width)] for _ in range(self.gestion.height)]
         for i in range(self.gestion.height):
             for j in range(self.gestion.width):
@@ -169,10 +170,9 @@ class GameOfLifeWindow(QMainWindow):
                 self.squares[i][j].setPixmap(pixmap)
                 self.matrix_layout.addWidget(self.squares[i][j], i, j)
 
-        self.draw_matrix()
-        
+        self.draw_matrix()  
+
     def start_game(self):
-        # self.gestion.reset_grid()
         # Cette méthode est appelée lorsque le bouton de démarrage est cliqué
         if self.timer.isActive():
             self.timer.stop()
@@ -185,7 +185,7 @@ class GameOfLifeWindow(QMainWindow):
         # Mettre à jour le jeu
         self.gestion.life_or_death()
         self.draw_matrix()
-       
+
     def draw_matrix(self):
         # Dessiner la matrice
         for i in range(self.gestion.height):
@@ -204,7 +204,7 @@ class GameOfLifeWindow(QMainWindow):
 
     def recreate_grid(self):
         # Effacer la grille existante et en créer une nouvelle
-        for i in reversed(range(self.matrix_layout.count())): 
+        for i in reversed(range(self.matrix_layout.count())):
             widget = self.matrix_layout.itemAt(i).widget()
             if widget is not None:
                 widget.deleteLater()
