@@ -106,60 +106,68 @@ SQUARE_SIZE = 20
 
 
 class GameOfLifeWindow(QMainWindow):
-    def __init__(self,gestion):
+    def __init__(self, gestion):
         super().__init__()
-        
+
         self.gestion = gestion
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_game)
         self.initUI()
-        
+
     def initUI(self):
         self.setWindowTitle("Game of life")
-        
+
         self.central_widget = QWidget(self)
         self.setCentralWidget(self.central_widget)
 
-        
-        self.cmdLayout = QVBoxLayout()
-        self.cmdLayout.addStretch()
-        
-        self.matrixLayout= QVBoxLayout()
-        
-            
-    
-        # Ajouter le bouton de démarrage à la disposition
-        self.start_button = QPushButton("Démarrer",self)
-        self.start_button.setStyleSheet("background-color: grey; color: white;")  # Bouton de démarrage avec fond gris et texte blanc
-        # self.start_button.clicked(self.start_game)
-        self.cmdLayout.addWidget(self.start_button)
+        self.central_widget.setStyleSheet("background-color: black;")
 
-        # Initialiser le bouton QPushButton pour redimensionner la grille
+        # Create a horizontal layout for the central widget
+        self.central_layout = QHBoxLayout(self.central_widget)
+        self.central_widget.setLayout(self.central_layout)
+
+        # Create a vertical layout for the buttons
+        self.button_layout = QVBoxLayout()
+
+        # Add the start button to the button layout
+        self.start_button = QPushButton("Démarrer", self)
+        self.start_button.setStyleSheet("background-color: grey; color: white;")
+        self.start_button.clicked.connect(self.start_game)
+        self.button_layout.addWidget(self.start_button)
+
+        # Add the resize button to the button layout
         self.resize_button = QPushButton('Redimensionner', self)
-        self.resize_button.setStyleSheet("background-color: grey; color: white;")  # Bouton avec fond gris et texte blanc
-        # self.resize_button.clicked.connect(self.on_resize_clicked)
-        self.cmdLayout.addWidget(self.resize_button)
+        self.resize_button.setStyleSheet("background-color: grey; color: white;")
+        self.resize_button.clicked.connect(self.on_resize_clicked)
+        self.button_layout.addWidget(self.resize_button)
 
-        
+        # Add labels and input fields for height and width
+        self.button_layout.addWidget(QLabel("Hauteur"))
         self.input_height = QLineEdit(self)
+        self.input_height.setStyleSheet("color: white;")
+        self.button_layout.addWidget(self.input_height)
+
+        self.button_layout.addWidget(QLabel("Grosseur"))
         self.input_width = QLineEdit(self)
-        self.input_height.setStyleSheet("color: black;")  # Définir la couleur du texte en blanc
-        self.input_width.setStyleSheet("color: black;")   # Définir la couleur du texte en blanc
-      
-        
+        self.input_width.setStyleSheet("color: white;")
+        self.button_layout.addWidget(self.input_width)
 
+        # Add the button layout to the central layout
+        self.central_layout.addLayout(self.button_layout)
 
-        self.central_widget.setLayout(self.cmdLayout)
-        self.central_widget.setLayout(self.matrixLayout)
-        self.cmdLayout.addWidget(QLabel("Hauteur"))
-        self.cmdLayout.addWidget(self.input_height)
-        self.cmdLayout.addWidget(QLabel("Grosseur"))
-        self.cmdLayout.addWidget(self.input_width)
-        
-        self.squares = [[QLabel(self.matrixLayout) for _ in range(self.gestion.width)] for _ in range(self.gestion.height)]
+        # Create a grid layout for the matrix of squares
+        self.matrix_layout = QGridLayout()
+
+        # Add the matrix layout to the central layout
+        self.central_layout.addLayout(self.matrix_layout)
+
+        # Initialize the squares for the grid
+        self.squares = [[QLabel(self.central_widget) for _ in range(self.gestion.width)] for _ in range(self.gestion.height)]
         for i in range(self.gestion.height):
             for j in range(self.gestion.width):
                 pixmap = QPixmap(SQUARE_SIZE, SQUARE_SIZE)
                 self.squares[i][j].setPixmap(pixmap)
-                self.matrixLayout.addWidget(self.squares[i][j], i + 4, j) 
+                self.matrix_layout.addWidget(self.squares[i][j], i, j)
 
         self.draw_matrix()
         
@@ -196,8 +204,8 @@ class GameOfLifeWindow(QMainWindow):
 
     def recreate_grid(self):
         # Effacer la grille existante et en créer une nouvelle
-        for i in reversed(range(self.grid_layout.count())): 
-            widget = self.grid_layout.itemAt(i).widget()
+        for i in reversed(range(self.matrix_layout.count())): 
+            widget = self.matrix_layout.itemAt(i).widget()
             if widget is not None:
                 widget.deleteLater()
 

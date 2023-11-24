@@ -8,6 +8,7 @@ php -S localhost:8000
 pour installer numpy 
 dans cmd pip install numpy
 
+pip install matplotlib
 Thelazerlog
 /
 C54
