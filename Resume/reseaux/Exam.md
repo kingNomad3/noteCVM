@@ -53,6 +53,8 @@ o	Sélectionner l'option "Utiliser un disque dur virtuel existant"
 Emplacement: C:\_VIRTUEL\Disque
 Nom du fichier: routeur1.vhdx
 
+il faut creer l'externe en premier et ensuite le prive 1
+
 À la fin de la création de l’ordinateur virtuel, vous devez ajouter une deuxième carte réseau.
 	Cette carte réseau doit utiliser le commutateur "PRIVE1"
 
@@ -67,3 +69,27 @@ nom d'utilisateur = admin
 mot de passe = pfsense
 
 ```
+
+# Configuration IP
+- Le SERVEUR2 aura deux cartes réseau. Le nom de la première carte réseau sera "NAT1" et utilisera une ou plusieurs adresses statiques. Le nom de la deuxième carte réseau sera "NAT2" et utilisera une configuration IP provenant du serveur DHCP.
+
+- ncpa.cpl 
+- rename
+
+
+config dans le dns et dhcp
+
+Panneau de configuration - Centre Réseau et partage
+Dans le menu à gauche: "Modifier les paramètres de la carte"
+	Cliquer sur la carte réseau et la renommer EXTERNE
+
+Afficher les propriétés de la carte réseau EXTERNE
+	Modifier les propriétés de l’item Protocole Internet version 4 (TCP/IPv4)
+o	Sélectionner Utiliser l'adresse IP suivante:
+Adresse IP (SERVEUR1): 192.168.1.11
+Adresse IP (SERVEUR2): 192.168.1.21
+Masque de sous-réseau: 255.255.255.0
+Passerelle par défaut: 192.168.1.1
+o	Sélectionner Utiliser l'adresse de serveur DNS suivante:
+Serveur DNS préféré: 127.0.0.1
+
