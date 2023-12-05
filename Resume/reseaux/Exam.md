@@ -157,9 +157,9 @@ La configuration du paramètre sera valide pour tous les sites web.
 192.168.1.108           24
 192.168.1.107           24
 192.168.1.106           24
-192.168.1.105           24 -
-192.168.1.104           24 -
-192.168.1.103           24 -
+192.168.1.105           24 
+192.168.1.104           24 
+192.168.1.103           24 
 192.168.1.102           24 -
 192.168.1.101           24 -
 192.168.1.21 
@@ -250,3 +250,13 @@ Adresse IP: 192.168.1.101
 
 gestion
 document par defaut et ajouter gestion.htm
+
+
+LE SERVEUR DHCP
+
+Pour acceder a pf sense https://192.168.1.1/
+
+plage 192.168.1.103
+192.168.1.202
+
+exlus 192.168.1.103 a 192.168.1.107
