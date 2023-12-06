@@ -49,3 +49,7 @@ On prend le centroide (moyenne de tout les points) et on regarde le plus proche
 r(img, p = 0.5)
 random npy rng = np.random.default_rng()
 im_rand = rng.random(im.shape)
+
+classification
+regression 
+recommendation
