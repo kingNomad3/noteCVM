@@ -195,37 +195,45 @@ o	Le numéro de port: 80
 Tester l'accès à votre nouveau site web avec http://192.168.1.101
 
 
-<h1>corpo local </h1>
-<body>
-•	Benjamin Joinvil 1662413 <br>
-•	Par adresse<br>
-•	192.168.1.101 port 80<br>
-•	www.corpo.local<br>
-•	Serveur1<br>
-•	Le nom de domaine pleinement qualifié (FQDN) pour le site	<br>
-</body>
-
 
 pour la delegation il faut ajouter un enrigistrement dans les deux
 
+# Le contenu des fichiers HTML
 
-par entete
+
+Créer un fichier index.htm dans le dossier "C:\_Web_1662413\www.corpo.local" contenant les informations suivantes dans le serveur 2
+## Le site www.corpo.local  192.168.1.101    
+• Benjamin Joinvil 1662413
+• Par adresse
+• 192.168.1.101 port 80
+• www.corpo.local
+• Serveur1
+• corpo.local
+
+
+Créer un fichier index.htm dans le dossier "C:\_Web_1662413\www.corpo.local" contenant les informations suivantes dans le serveur 2
+## Le site www.achat.corpo.local 192.168.1.102    
+Benjamin Joinvil 1662413 
+•	Par adresse
+•	192.168.1.102 port 80
+•	www.corpo.local
+•	Serveur2
+•	www.achat.corpo.local
+
+Créer un fichier index.htm dans le dossier "C:\_Web_1662413\www.corpo.local" contenant les informations suivantes dans le serveur 2
+## Le  site www.vendeur.corpo.local 192.168.1.101   
+	Benjamin Joinvil 1662413 
+•	Par adresse
+•	192.168.1.101 port 5480
+•	www.corpo.local
+•	Serveur1
+•	Lwww.vendeur.corpo.local<
+
+
+
+
 Dans votre Gestionnaire des services Internet (IIS), ajouter un nouveau site Web en utilisant un nom d'hôte ayant les caractéristiques suivantes:
-o	Nom du site: Web ENT1 101
-o	Chemin d’accès physique: c:\_web\ent1_101
-o	Adresse IP: 192.168.1.101
-o	Port: 80
-o	Nom de l'hôte: ent1.formation.local
-
-Créer un fichier index.htm dans le dossier "c:\_web\ent1_101" contenant les informations suivantes:
-o	Votre nom
-o	Le nom du site: ent1.formation.local
-o	Type de site: site par en-tête
-o	L’adresse IP: 192.168.1.101
-o	Le numéro de port: 80
-
-
-Dans votre Gestionnaire des services Internet (IIS), ajouter un nouveau site Web en utilisant un nom d'hôte ayant les caractéristiques suivantes:
+Le site www.achat.corpo.local 192.168.1.102    
 o	Nom du site: Web ENT2 101
 o	Chemin d’accès physique: c:\_web\ent2_101
 o	Adresse IP: 192.168.1.101
@@ -260,3 +268,6 @@ plage 192.168.1.103
 192.168.1.202
 
 exlus 192.168.1.103 a 192.168.1.107
+
+
+# Transfert de zone et copie de zone 
