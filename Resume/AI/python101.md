@@ -185,3 +185,34 @@ class GOLEngine:
         w =with
             # la varaible va mourrire lorsque l'objet va mourrir, une varaible membre si on passe par l'objet courant 
         self.with = with
+
+        # va converter comme un string 
+num1 =  input("enter")
+num2 =  input("enter")
+result = num1 + num2
+print(result)
+
+print(result = int(num1) + float(num2))
+
+# Dictionnaire 
+monthCoversions = {
+     "Jan" : "January",
+     "Feb" : "Fabruary",
+     "Ma" : "March",
+     "Ap" : "April",
+     "Ma" : "Mai",
+     "Jun" : "June",
+     "Jul" : "July",
+     "Aug" : "August",
+     "Sep" : "September",
+     "Oct" : "October",
+     "Nov" : "November",
+     "Dec" : "December",
+}
+
+# print(monthCoversions)
+# print(monthCoversions["Nov"])
+# print(monthCoversions.get("Dec"))
+# invalide key
+# print(monthCoversions.get("luv")) #return None
+print(monthCoversions.get("luv", "Not a valid key")) #return error message if not found
