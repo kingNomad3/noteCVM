@@ -53,3 +53,6 @@ USE INDEX (nom_index) - forcer mysql a utiliser un index specifique
 explain select 
 
 recherche phonetique 
+
+
+
