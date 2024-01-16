@@ -217,26 +217,3 @@ monthCoversions = {
 # print(monthCoversions.get("luv")) #return None
 print(monthCoversions.get("luv", "Not a valid key")) #return error message if not found
 
-
-#files
-empolye_file = open("employee.txt", "r") # r= read, w = write, a = append at the end, r+ = read and write
-
-print(empolye_file.readable()) # readable check if you can read from the file bool
-print("------------------------")
-print(empolye_file.read()) # read au complet
-print("------------------------")
-empolye_file.seek(0) # Move the file pointer back to the beginning
-print(empolye_file.readline()) #read first line
-# print(empolye_file.readline()) #read second line 
-print("------------------------")
-empolye_file.seek(0) 
-print(empolye_file.readlines()) 
-
-print("------------------------")
-empolye_file.seek(0) 
-for employee in empolye_file.readlines():
-    print(employee)
-
-
-
-empolye_file.close()
