@@ -1,76 +1,142 @@
-# commande utilisé
 
+# Commandes Utilisées
 
+## DESC (Description de la table)
 
-- desc (nom table) - desc produit; - description de la table produit 
+- Pour afficher la description d'une table, utilisez : 
+  ```sql
+  DESC nom_de_la_table;
+  ```
+  Cela affiche la structure de la table spécifiée.
 
-- Select * from produits limit 0,1;  - limit a la premiere ligne 
+## SELECT avec LIMIT
 
-- SELECT COUNT(*) FROM produits2 WHERE description LIKE '%xbox%'; 
-    - peut commencer par n;import quoi et terminier par n'importe quoi, Le % au debut est mauvais car il va chercher tout les resultats de la table -- defeat the index
+- Pour sélectionner uniquement la première ligne d'une table, utilisez : 
+  ```sql
+  SELECT * FROM nom_de_la_table LIMIT 0, 1;
+  ```
+  Cela limite les résultats à la première ligne de la table.
 
-- USE INDEX (nom_index) - forcer mysql a utiliser un index specifique
+## SELECT COUNT(*) avec LIKE
 
-- explain select 
+- Pour compter le nombre de lignes où une colonne contient un certain motif (par exemple, '%xbox%'), utilisez : 
+  ```sql
+  SELECT COUNT(*) FROM nom_de_la_table WHERE colonne LIKE '%xbox%';
+  ```
+  Veillez à éviter le '%' au début, car il entraînerait une recherche de tous les résultats de la table, contournant l'index.
 
+## USE INDEX (Forcer l'utilisation d'un index spécifique)
 
-- CREATE DATABASE cvm_db CHARACTER SET utf8 COLLATE utf8_general_ci; 
+- Pour forcer MySQL à utiliser un index spécifique dans une requête, utilisez : 
+  ```sql
+  USE INDEX (nom_de_l_index);
+  ```
+  Cela indique à MySQL d'utiliser l'index spécifié pour la requête.
 
-    - collate: touche au orderby groupe by
-    - _ci permet de mettre tout mes recherches sont case insesitive, veut dire aussi ei
-    - general: pour les mots comme coeur genereleent coeur le e est coller au o 
+## EXPLAIN SELECT
 
-- show databases; - montre la base de données sur le serveur
+- Pour obtenir des informations sur la façon dont MySQL exécute une requête SELECT, utilisez : 
+  ```sql
+  EXPLAIN SELECT colonnes FROM nom_de_la_table WHERE conditions;
+  ```
+  Cela vous fournira des détails sur l'exécution de la requête.
 
-- CREATE USER cvm_user@'localhost' identified by 'AAAaaa111';
-        - @localhost :  de ou on se connect, 
-        - alors si CREATE USER cvm_user@'10.57.57.14' identified by 'AAAaaa111'; on peut lui donner des droits spécifique
-        - CREATE USER cvm_user@'%' identified by 'AAAaaa111'; de n'importe quel addresse ip, se connectant d'ailleurs
-        - CREATE USER cvm_user identified by 'AAAaaa111'; all
+## CREATE DATABASE cvm_db CHARACTER SET utf8 COLLATE utf8_general_ci; 
 
-- GRANT ALL ON cvm_db.* TO cvm_user@'localhost';
-    - donne tout les droits a cette usager pour tout les tables
+- Pour créer une base de données avec un jeu de caractères et une collation spécifiques, utilisez : 
+  ```sql
+  CREATE DATABASE cvm_db CHARACTER SET utf8 COLLATE utf8_general_ci;
+  ```
+  - `collate`: touche au `ORDER BY` et `GROUP BY`
+  - `_ci` permet de rendre toutes les recherches insensibles à la casse, ce qui signifie aussi `ei`
+  - `general`: pour des mots comme "coeur", généralement "coeur" avec le "e" collé au "o"
+  - charset utf8: L'option CHARACTER SET utf8 définit le jeu de caractères à UTF-8, qui est un encodage de caractères prenant en charge un large éventail de caractères, y compris les caractères internationaux.
 
-- GRANT SELECT ON cvm_db.users TO CVM_user@'%'
-    - donne juste select comme droit a cette table 
+## show databases;
 
-- use cvm_db;
-    - a partir de maintenant tout ce que je fais est dans cette base de donnnées la 
+- Pour afficher les bases de données disponibles sur le serveur, utilisez : 
+  ```sql
+  show databases;
+  ```
 
-    CREATE TABLE users (
-	id INT NOT NULL AUTO_INCREMENT - increment est serial 
-    
-C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqldumb.exe
+## CREATE USER cvm_user@'localhost' identified by 'AAAaaa111';
 
+- Pour créer un utilisateur MySQL avec un mot de passe, utilisez : 
+  ```sql
+  CREATE USER cvm_user@'localhost' IDENTIFIED BY 'AAAaaa111';
+  ```
+  - `@localhost`: pour définir de quel emplacement se connecter
+  - Vous pouvez spécifier des droits spécifiques en modifiant l'adresse IP ou en utilisant '%' pour n'importe quelle adresse IP.
 
-.\mysqldump.exe --no-tablespaces -uroot -p cvm_db > backup.sql
-);
+## GRANT ALL ON cvm_db.* TO cvm_user@'localhost';
 
+- Pour accorder tous les droits à un utilisateur sur toutes les tables d'une base de données, utilisez : 
+  ```sql
+  GRANT ALL ON cvm_db.* TO cvm_user@'localhost';
+  ```
 
-```MySQL
-SELECT email FROM users WHERE id > 0 limit 0,1; # limit(offset,count) tu te tasses de combien et tu en prend combien 
-# si limit 10,10, on va a la 1element et on donne les 11 prochain
+## GRANT SELECT ON cvm_db.users TO cvm_user@'%'
 
-use cvm_db;
+- Pour accorder uniquement le droit SELECT à un utilisateur sur une table spécifique, utilisez : 
+  ```sql
+  GRANT SELECT ON cvm_db.users TO cvm_user@'%';
+  ```
 
-CREATE TABLE users (
-	id INT NOT NULL AUTO_INCREMENT, # auto_increment is serial
-    status ENUM("pending","inactive","active") DEFAULT "pending",
+## use cvm_db;
+
+- Pour sélectionner une base de données spécifique à utiliser dans vos requêtes, utilisez : 
+  ```sql
+  USE cvm_db;
+  ```
+  À partir de ce point, toutes les opérations seront effectuées dans cette base de données.
+
+## CREATE TABLE users (
+	id INT NOT NULL AUTO_INCREMENT, -- Auto_increment est l'équivalent de SERIAL
+    status ENUM("pending", "inactive", "active") DEFAULT "pending",
     email VARCHAR(255) NOT NULL,
-    PRIMARY KEY pk_users(id),
+    PRIMARY KEY (id),
     UNIQUE INDEX uk_users_email(email)
-) engine=InnoDB; #plus tot on a mis not case senstive ici on pourrait le remettre case sensitive
+) ENGINE=InnoDB;
 
+- Pour créer une table avec des colonnes, utilisez : 
+  ```sql
+  CREATE TABLE users (
+    id INT NOT NULL AUTO_INCREMENT, -- Auto_increment est l'équivalent de SERIAL
+    status ENUM("pending", "inactive", "active") DEFAULT "pending",
+    email VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE INDEX uk_users_email(email)
+  ) ENGINE=InnoDB;
+  ```
+  - `ENGINE=InnoDB`: spécifie le moteur de table InnoDB.
 
+## mysqldump.exe (pour créer une copie de sauvegarde)
 
-show databases;
+- Pour créer une copie de sauvegarde de la base de données, utilisez la commande `mysqldump.exe`. Par exemple : 
+  ```shell
+  C:\Program Files\MySQL\MySQL Server 8.0in\mysqldump.exe
+  --no-tablespaces -uroot -p cvm_db > backup.sql
+  ```
+  Cette commande crée un fichier de sauvegarde appelé `backup.sql` de la base de données `cvm_db`.
 
-CREATE DATABASE cvm_db CHARACTER SET utf8 COLLATE utf8_general_ci;
+## SELECT avec LIMIT (Offset et Count)
 
-CREATE USER cvm_user@'localhost' identified by 'AAAaaa111';
+- Pour sélectionner des lignes avec un décalage (offset) et un nombre spécifiés (count), utilisez la clause `LIMIT`. Par exemple :
+  ```sql
+  SELECT email FROM users WHERE id > 0 LIMIT 0, 1;
+  ```
+  - `LIMIT 0, 1` signifie que vous commencez à la première ligne et prenez une ligne.
 
-GRANT ALL ON cvm_db.* TO cvm_user@'localhost';
-GRANT SELECT ON cvm_db.users TO CVM_user@'%';
+## Création de tables avec AUTO_INCREMENT
 
+- Lorsque vous créez une table avec une colonne `id` utilisant `INT NOT NULL AUTO_INCREMENT`, cela signifie que la colonne `id` sera auto-incrémentée, agissant comme une séquence.
+  ```sql
+  CREATE TABLE users (
+    id INT NOT NULL AUTO_INCREMENT,
+    -- Autres colonnes ici
+    PRIMARY KEY (id)
+  ) ENGINE=InnoDB;
+  ```
+  Cela permet à chaque nouvelle ligne d'obtenir un ID unique généré automatiquement.
 
 ```

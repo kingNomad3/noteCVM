@@ -1,5 +1,8 @@
 # Optimisation de tables avec les index
 
+
+## Les catégories d’index les plus utilisées
+
 - optimisation par index
 
 - Les slaves ont les memes informations que le master et seulement le master peuvent etre modifier. Lorsque le master (serveur) est udpdate alors les slaves updates. 
@@ -16,43 +19,78 @@
 
 - au lieu d'une grosse table de users, nous pouvons avoir une petit table de user qui commence tous par ad par exemple user_ad, on appelle cela du charding
 
-## b-tree (balanced - tree) - défaut (index)
 
-    - balance tree, lorsqu'on fait un indez c'est b-tree par defaut
+- **B-tree (balanced-tree) - Par Défaut**
+  - Le type d'index le plus populaire est le B-tree, qui est également l'index par défaut. Il est appelé "arbre équilibré" parce que les feuilles de l'arbre sont toujours au même niveau. Cependant, les blocs d'index peuvent contenir un nombre variable de valeurs et de l'espace inutilisé.
 
-    - marche mieux lorsque nous avons enormement de valeur 
+  - Par exemple, si nous exécutons la requête : `SELECT * FROM USERS WHERE AGE = 21`, l'index permettra de localiser la ligne dans la table qui correspond à la requête.
+
+  - Vous pouvez créer un index B-tree avec la commande : `CREATE INDEX idx_city ON USERS (city);`
+
+## Index Unique
+
+- Les index uniques doivent être créés sur des colonnes où chaque valeur ne peut apparaître qu'une seule fois.
+
+- Voici quelques exemples de bonnes candidatures pour des index uniques : adresse e-mail, numéro d'assurance sociale, nom d'utilisateur.
+
+- Vous pouvez créer un index unique avec la commande : `CREATE UNIQUE INDEX idx_username ON USERS(username);`
+
+## Index à Colonne Simple
+
+- Les index à colonne simple doivent être utilisés lorsque l'utilisateur effectue une requête de filtrage sur une seule colonne.
+
+- Par exemple : `SELECT * FROM users WHERE birth_date > TO_DATE('1990', 'YYYY');`
+
+## Index à Colonnes Multiples (Index Composite)
+
+- Les index à colonnes multiples, également appelés index composites, sont extrêmement utiles lorsqu'une requête implique plusieurs colonnes.
+
+- Un exemple valable d'index composite est (province, ville, rue).
+  - Exemple de requêtes utilisant cet index :
+    - `WHERE province = …`
+    - `WHERE province = … AND ville = …`
+    - `WHERE province = … AND ville = … AND rue = …`
+  
+- Exemple où l'index ne sera pas utilisé :
+  - `WHERE ville = … AND rue = …`
+  - `WHERE ville = …`
+  - `WHERE rue = …`
+
+- La requête suivante n'utiliserait pas l'index (province, ville, rue) :
+  `SELECT * FROM users WHERE ville = ‘montreal’ AND rue = ‘Sanguinet’`
 
 
-- Les index dans les bases de donnes relaton, lorsqu'on update la base de donner TOUT les index doivent etre mis a jours et recalcule. Plus la table est grosse plus sa va couter cher 
+## Le « Full Text Indexing »
 
-# index composer ou multiple 
+- Utiliser le "Full Text Indexing" permet d'indexer chaque mot dans un texte. Cela peut grandement améliorer les performances, mais peut être plus long à maintenir pour la base de données.
 
-- utilise des index sur plusieurs collones en meme temps
+- Pour créer un index "Full Text" en MYSQL :
 
-- insere les donnees de maniere differer pour les gros systemes
+`CREATE FULLTEXT INDEX idx_produits_desc ON produits2(description);`
 
+- Une requête utilisant le "Full Text Indexing" peut être beaucoup plus performante qu'une requête utilisant LIKE avec des % au début et à la fin du mot recherché.
 
-## Le « Full text indexing »
+- Par exemple :
 
-SELECT COUNT(*) FROM produits2 WHERE MATCH(description) AGAINST('xbox'); c'est la meme chose que :
+`SELECT COUNT(*) FROM produits2 WHERE MATCH(description) AGAINST('xbox');`
 
-SELECT COUNT(*) FROM produits2 WHERE description LIKE '%xbox%';
+- Ceci est dramatiquement plus performant que cette requête :
 
-mais plus performent
+`SELECT COUNT(*) FROM produits2 WHERE description LIKE '%xbox%';`
 
-----------------------
+## Autres Commandes Utiles
 
-desc (nom table) - desc produit; - description de la table produit 
+- Utilisez `DESC (nom_table)` pour obtenir la description de la structure d'une table, par exemple : `DESC produit` donne la description de la table "produit".
 
-Select * from produits limit 0,1;  - limit a la premiere ligne 
+- Limitez le nombre de résultats d'une requête avec `SELECT * FROM produits LIMIT 0,1` pour obtenir seulement la première ligne.
 
-SELECT COUNT(*) FROM produits2 WHERE description LIKE '%xbox%'; - peut commencer par n;import quoi et terminier par n'importe quoi, Le % au debut est mauvais car il va chercher tout les resultats de la table -- defeat the index
+- Évitez d'utiliser `%` au début d'une chaîne dans une requête LIKE, car cela peut entraîner une recherche inefficace en recherchant tous les résultats de la table.
 
-USE INDEX (nom_index) - forcer mysql a utiliser un index specifique
+- Pour forcer MySQL à utiliser un index spécifique, utilisez `USE INDEX (nom_index)`.
 
-explain select 
+- Utilisez `EXPLAIN SELECT` pour analyser et optimiser les performances de vos requêtes.
 
-recherche phonetique 
+- Il existe également des techniques de recherche phonétique pour améliorer la recherche de mots similaires.
 
 
 
