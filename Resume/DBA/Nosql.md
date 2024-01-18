@@ -62,56 +62,6 @@ dans mango shell
 use nomDataBase  : lorsque nous allons faire des select se sera dans ctete base de données comme dans mysql use data_name, si la data base n'existe pas elle sera creer lorsque nous allons inserer qqchose
 db.locaux.insertOne({location: 'C4.07'})   : nom de la connection (n'existe pas, alors sera creer). Pas besoin de create un database, une table ou de declarer les type
 
-```
-db.etudiants.insertOne({matricule : 100, solde : 111, genre : "M", nom : "xxx", courses : ["C33", "C55"]})
-db.etudiants.insertOne({matricule : 101, solde : 222, genre : "F", nom : "yyy", courses : ["C33", "C55"]})
-db.etudiants.insertOne({matricule : 102, solde : 333, genre : "M", nom : "zzz", courses : ["C33"]})
-db.etudiants.insertOne({matricule : 103, solde : 444, genre : "F", nom : "aaa", courses : ["C33", "C55"]})
-db.etudiants.insertOne({matricule : 104, solde : 555, genre : "F", nom : "bbb", courses : ["C33", "C55"]})
-```
-
-db.etudiants.count() ou countDocuments : devrait etre eguale a 5
-
-db.showCollectionNames() ou showCollecion : tout les connections sur la bd showCollecion dans mySQL
-
-db.etudiant.find() : affiche tout les document inserrer 
-db.etudiant.find({ matricule : 104}) : le WHERE est dans les parenthese
-
-db.etudiant.find({solde : {$gt : 0}}) : solde > 0
-
-$gt: qqchose> 0
-$gte : 0> qqchose 
-
-
-db.etudiant.updateOne({nom : 'bbb'}, {$set : {nom : 'bbba' }}) : cherche le document bbb lorsque tu le trouve change sont nom pour bbba
-
-db.etudiant.deleteOne({matricule : 100 }): delete 
-
-db.etudiant.createIndex({matricule : 1}) :index
-db.etudiant.createIndex({matricule : 1, nom}) :index multiple
-
-   - les index on des senses, le 1 est important -1  ORDER BY decendant et 1 ORDER BY ascendant 
-
-db.etudiant.createIndex({nom : 1}, {collation: {locale : 'fr', strenght : 2 }}) 
-      - strenght : 2 -- case insensitive
-
-(province, ville, rue)
-where province = 'qc' : ok
-where province = 'qc' and where ville = 'mtl' : ok
-where ville = 'mtl' : non utilisable, car nous avons besoin du premier "province" pour retrouver, dans ce cas ci il faudrait recreer une autre index  (ville)
-
-db.etudiant.find({nom : 'aaa'}.collation({locale : 'fr', strenght : 2 }) ) : on fait un recherche qui est case insensecitive, meme si l'index est case insensitive ou il y a un seul index
-
-db.etudiant.aggregate({ $match : {matricile : { $gt : 0 } }}, 
-                                             $group :   {
-                                             _id    : "$genre",
-                                             total  : { $sum : "$solde"}
-                                             } })
-                                             
-- va dans la liste des etudiant, avec le matricule qui est plus grand que 0 et separe les de la tables, ensuite fait un groupe by de tout ce qui on le meme genre ensemble (M,F)  et fait la sommes de la propriete solde
-
-
-
 **Column-Family**
 
 - Les bases de données de type Column-Family sont utilisées pour atteindre de hautes performances, notamment lorsqu'il s'agit de répondre à des requêtes spécifiques. Elles sont principalement utilisées lorsque la structure des tables est optimisée pour des besoins particuliers, par exemple, pour effectuer des recherches sur la notation (rating) des hôtels.

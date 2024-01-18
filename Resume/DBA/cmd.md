@@ -139,4 +139,68 @@
   ```
   Cela permet à chaque nouvelle ligne d'obtenir un ID unique généré automatiquement.
 
-```
+  ```
+
+# Commandes et Explications MongoDB
+
+## Commandes de Base
+- `db`: Affiche la base de données actuellement utilisée.
+- `show dbs`: Liste toutes les bases de données installées sur le serveur.
+
+## Sélection et Création de Bases de Données
+- `use nomDataBase`: Sélectionne `nomDataBase` comme base de données courante. Si elle n'existe pas, elle sera créée lors de la première insertion. Comme dans mysql use data_name.
+
+## Insertion de Données
+- `db.locaux.insertOne({location: 'C4.07'})`: Insère un document dans la collection `locaux`. Si elle n'existe pas, elle sera créée automatiquement.Pas besoin de create un database, une table ou de declarer les type
+
+- Insertion de plusieurs étudiants:
+  ```
+  db.etudiants.insertOne({matricule: 100, solde: 111, genre: "M", nom: "xxx", courses: ["C33", "C55"]})
+  db.etudiants.insertOne({matricule : 100, solde : 111, genre : "M", nom : "xxx", courses : ["C33", "C55"]})
+  db.etudiants.insertOne({matricule : 101, solde : 222, genre : "F", nom : "yyy", courses : ["C33", "C55"]})
+  db.etudiants.insertOne({matricule : 102, solde : 333, genre : "M", nom : "zzz", courses : ["C33"]})
+  db.etudiants.insertOne({matricule : 103, solde : 444, genre : "F", nom : "aaa", courses : ["C33", "C55"]})
+  db.etudiants.insertOne({matricule : 104, solde : 555, genre : "F", nom : "bbb", courses : ["C33", "C55"]})
+  ```
+
+## Comptage et Affichage des Collections
+- `db.etudiants.count()` ou `countDocuments`: Compte le nombre de documents dans la collection `etudiants`.
+- `db.showCollectionNames()` ou `showCollecion`: Liste toutes les collections de la base de données courante.
+
+## Interrogation de Documents
+- `db.etudiant.find()`: Affiche tous les documents de la collection `etudiant`.
+- `db.etudiant.find({ matricule: 104})`: Affiche le document dont le `matricule` est 104.le WHERE est dans les parenthese.
+- `db.etudiant.find({solde: {$gt: 0}})`: Sélectionne les documents dont le champ `solde` est supérieur à 0.
+
+## Mise à Jour et Suppression de Documents
+- `db.etudiant.updateOne({nom: 'bbb'}, {$set: {nom: 'bbba'}})`: Cherche le document bbb et Met à jour le nom d'un document de 'bbb' à 'bbba'.
+- `db.etudiant.deleteOne({matricule: 100})`: Supprime le document dont le `matricule` est 100.
+
+## Indexation
+- `db.etudiant.createIndex({matricule: 1})`: Crée un index sur le champ `matricule`.
+- `db.etudiant.createIndex({matricule: 1, nom})`: Crée un index composé sur `matricule` et `nom`.
+- `db.etudiant.createIndex({nom: 1}, {collation: {locale: 'fr', strength: 2}})`: Crée un index avec une insensibilité à la casse (`strength: 2`).
+
+## Requêtes Avancées
+- `(province, ville, rue)` exemple:
+  - `where province = 'qc'`: Requête valide.
+  - `where province = 'qc' and where ville = 'mtl'`: Requête valide.
+  - `where ville = 'mtl'`: Non valide sans le champ 'province'.Dans ce cas ci il faudrait recreer une autre index  (ville)
+- `db.etudiant.find({nom: 'aaa'}.collation({locale: 'fr', strength: 2}))`: Recherche insensible à la casse, même si l'index est sensible à la casse ou s'il n'y a qu'un seul index.
+
+## Agrégation
+- `db.etudiant.aggregate({ $match: {matricule: {$gt: 0}}}, $group: {_id: "$genre", total: {$sum: "$solde"}})`: 
+  - Filtre les étudiants avec un `matricule` supérieur à 0, puis regroupe par `genre` et fait la somme du `solde`.
+  - va dans la liste des etudiant, avec le matricule qui est plus grand que 0 et separe les de la tables, ensuite fait un groupe by de tout ce qui on le meme genre ensemble (M,F)  et fait la sommes de la propriete solde
+
+## gt et gte
+
+$gt : Utilisé pour une condition "plus grand que". Par exemple, $gt: valeur sélectionne les documents où le champ est plus grand que valeur.
+
+$gte : Utilisé pour une condition "plus grand que ou égal à". Par exemple, $gte: valeur sélectionne les documents où le champ est plus grand que ou égal à valeur.
+
+$gt: Utilisé pour une condition "plus grand que". Par exemple, $gt: 0 sélectionne les documents où le champ est plus grand que 0.
+
+$gte: Utilisé pour une condition "plus grand que ou égal à". Par exemple, $gte: 0 sélectionne les documents où le champ est plus grand que ou égal à 0.
+- $gt: qqchose> 0
+- $gte : 0> qqchose
