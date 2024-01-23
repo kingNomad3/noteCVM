@@ -54,14 +54,6 @@ MongoDB est une base de données NoSQL qui permet de stocker des documents JSON.
 - Contrairement aux bases de données relationnelles, MongoDB ne prend pas en charge les clés étrangères (foreign keys).
 
 
---------- 
-dans mango shell
-
-- db : dans quel base de données ous sommes 
-- show dbs : tout les base de données installés sur le serveur 
-use nomDataBase  : lorsque nous allons faire des select se sera dans ctete base de données comme dans mysql use data_name, si la data base n'existe pas elle sera creer lorsque nous allons inserer qqchose
-db.locaux.insertOne({location: 'C4.07'})   : nom de la connection (n'existe pas, alors sera creer). Pas besoin de create un database, une table ou de declarer les type
-
 **Column-Family**
 
 - Les bases de données de type Column-Family sont utilisées pour atteindre de hautes performances, notamment lorsqu'il s'agit de répondre à des requêtes spécifiques. Elles sont principalement utilisées lorsque la structure des tables est optimisée pour des besoins particuliers, par exemple, pour effectuer des recherches sur la notation (rating) des hôtels.
