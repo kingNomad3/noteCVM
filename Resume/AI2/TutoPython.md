@@ -70,7 +70,7 @@
 - Longueur : `len(chaine1)` donne `7`.
 
 ### Accès et Slicing
-
+.
 - Accès à un caractère : `chaine1[0]` donne `'B'`.
 - Slicing : `chaine1[1:3]` donne `'on'`.
 
@@ -84,12 +84,41 @@
   liste.append(5)  # Ajoute 5 à la fin de la liste
   ```
 
+  l = [1,2,3] + [1,2,3]
+  [1,2,3 ] *2 
+
+  Les deux listes font un reference vers le meme objet alors si on change une on changera l'autre
+
+```python
+  for i in range(2):
+    l.append([])
+    for j in range(5):
+      l[-1].append(0)
+```
+### Tuples
+
+creer un tuples
+t =1,2,3
+
+
 ### Dictionnaires
 
 - Les dictionnaires stockent des données sous forme de paires clé-valeur.
   ```python
   dico = {'clé': 'valeur', 'Python': 3.8}
   ```
+
+acceder a la valeur 
+d = ("prenom:'toto', 'nom: 'tata')
+
+d["prenom"]
+cle = "prenom"
+d[cle]
+  toto
+
+### exercice
+d = {'1':'1', '65': '2', '87': '3','211': '4','-6': '5', '0': '6'}
+
 
 ## Structures de contrôle
 
@@ -113,6 +142,19 @@
   for i in range(5):
       print(i)
   ```
+nbLapin = 0
+n1 = 0
+n2 = 0
+
+  for i in range(18):
+    print(n1)
+    nbLapin = n1 + n2
+    n1 = n2
+    n2 = nbLapin
+    n1 = n1 + 1
+
+
+
 
 ## Fonctions
 
