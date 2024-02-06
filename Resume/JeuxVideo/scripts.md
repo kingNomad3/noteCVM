@@ -1,62 +1,63 @@
+## Attribut RequireComponent en C#
+
+### Attribut RequireComponent
+
+- **Description :** Cet attribut assure qu'un composant `Rigidbody2D` est nécessaire sur le GameObject auquel ce script est attaché. Si absent, Unity l'ajoutera automatiquement, garantissant la présence des dépendances nécessaires.
+
+    ```csharp
+    [RequireComponent(typeof(Rigidbody2D))]
+    ```
 
 
+## Variable Sérialisée
 
+**[SerializeField]** :
 
-## Variable C#
+- L'utilisation de l'attribut `[SerializeField]` permet de rendre une variable privée visible et modifiable dans l'éditeur Unity sans pour autant la rendre publique. Cela est particulièrement utile pour encapsuler les données tout en permettant leur configuration via l'éditeur Unity.
 
+Exemple de variable sérialisée :
+- La variable `Velocity` est un exemple de variable que vous pouvez ajuster dans l'éditeur Unity grâce à la sérialisation. Cela permet de définir la vitesse initiale de l'objet de manière flexible sans avoir besoin de modifier le code directement.
 
-### RequireComponent
-
-- Cet attribut garantit qu'un composant Rigidbody2D est requis et doit être attaché au même GameObject que ce script. Si ce composant n'est pas présent, Unity l'ajoutera automatiquement.
-
-```C# 
-[RequireComponent(typeof(Rigidbody2D))]
-```
-
-## Variable Serialisee
-
-- La variable Velocity est sérialisée grâce à l'attribut [SerializeField]. Cela signifie que la vitesse initiale de l'objet peut être ajustée dans l'éditeur Unity sans avoir à modifier le code. Cela est utile pour paramétrer des valeurs spécifiques pour chaque instance de cet objet.
-
-```C#
+```csharp
 [SerializeField]
-Vector2 Velocity;
+private float Velocity;
 ```
 
 ## Méthodes du Script
 
 ### Méthode Start()
 
-- La méthode Start est appelée avant la première image du jeu. Dans cette méthode, on obtient le composant Rigidbody2D attaché au même GameObject en utilisant GetComponent. Ensuite, la vitesse initiale du Rigidbody2D est définie avec la valeur de la variable Velocity. Cela assure que l'objet commence à se déplacer avec la vitesse spécifiée dès le début du jeu.
+- **Fonctionnement :** Appelée avant le premier frame du jeu, cette méthode initialise le composant `Rigidbody2D` et définit sa vitesse initiale en utilisant la valeur de `Velocity`, préparant l'objet à se déplacer dès le début.
 
-```C#
-void Start()
-{
-    Rigidbody2D MonRigidbody2D = GetComponent<Rigidbody2D>();
-    MonRigidbody2D.velocity = Velocity;
-}
-```
+    ```csharp
+    void Start()
+    {
+        Rigidbody2D MonRigidbody2D = GetComponent<Rigidbody2D>();
+        MonRigidbody2D.velocity = Velocity;
+    }
+    ```
 
 ### Méthode Update()
-- La méthode Update est appelée une fois par image dans la boucle de jeu Unity. Dans ce script, la méthode Update est vide, ce qui signifie qu'elle n'effectue aucune action. Vous pouvez y ajouter une logique personnalisée pour gérer les entrées utilisateur ou effectuer des mises à jour continues si nécessaire.
 
-```C#
-void Update()
-{
-    // Cette méthode est vide dans ce script et n'effectue aucune action dans la boucle Update.
-    // Vous pouvez ajouter une logique supplémentaire ici si nécessaire.
-}
-```
-### Méthode OnCollisionEnter2D(Collision2D collision)
+- **Usage :** Exécutée à chaque frame, cette méthode est ici vide mais peut être utilisée pour ajouter des logiques personnalisées, comme la gestion des entrées utilisateur ou les mises à jour continues.
 
-- La méthode OnCollisionEnter2D est appelée lorsque l'objet entre en collision avec un autre objet 2D dans le jeu. Dans ce cas, elle détruit le GameObject actuel (this.gameObject) lorsqu'une collision se produit.
-Ces éléments du script "BalleJouer" expliquent comment le script contrôle le comportement de l'objet de jeu, en particulier son mouvement initial, la gestion des collisions et l'utilisation d'attributs comme [SerializeField] pour faciliter la personnalisation des propriétés dans l'éditeur Unity.
+    ```csharp
+    void Update()
+    {
+        // Logique personnalisée ici
+    }
+    ```
 
-```C#
-private void OnCollisionEnter2D(Collision2D collision)
-{
-    Destroy(this.gameObject);
-}
-```
+### Gestion des Collisions
+
+- **OnCollisionEnter2D(Collision2D collision) :** Réagit aux collisions avec d'autres objets 2D en exécutant des actions spécifiques, comme la destruction de l'objet courant pour simuler un effet ou une interaction.
+
+    ```csharp
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        Destroy(this.gameObject);
+    }
+    ```
 
 ### Composant Transform
 
@@ -150,9 +151,7 @@ Debug.Log("Temps depuis le début : " + Time.time);
 
 - La fonction Destroy(this.gameObject) est essentielle pour la gestion des objets et des ressources dans Unity, permettant de créer des mécaniques de jeu dynamiques en ajoutant et en supprimant des éléments de la scène en temps réel.
 
-# Extras
-
-# Fonctions d'Entrée Joueur en Unity
+### Divers Méthodes d'Entrée
 
 Unity offre plusieurs fonctions pour gérer les entrées joueur, que ce soit depuis un clavier, une souris, un contrôleur ou un écran tactile. Voici quelques-unes des fonctions d'entrée les plus couramment utilisées :
 
