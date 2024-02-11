@@ -91,6 +91,9 @@ Debug.Log("Temps depuis le début du niveau " + Time.time);
 Input.GetAxis("BougerJoueur") 
 Input.GetButtonDown("TirerBalle")
 ```
+![axis](./image/Screenshot%202024-02-11%20150141.png)
+![axis](./image/Screenshot%202024-02-11%20150429.png)
+![axis](./image/Screenshot%202024-02-11%20150639.png)
 
 ### Dans unity
 
@@ -228,3 +231,4 @@ if (Input.touches.Length > 0)
     // Traitement des entrées tactiles
 }
 ```
+
