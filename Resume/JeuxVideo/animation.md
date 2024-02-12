@@ -26,3 +26,15 @@ sprite mode multiple apres sprite editor comme  dans le tuto youtube des vagues
 ![Instruction](./image/Screenshot%202024-02-11%20154909.png)
 
     7. create and add the images
+
+# occialation
+
+- create empty
+    - kid create empy
+        kid create 2d physic sprite delete rigid body
+- create animation previous step 
+- add proprety
+- nom de l'objet
+-curve
+-delte x and z
+-play with the curve
