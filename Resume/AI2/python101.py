@@ -5,73 +5,72 @@ x = y = z = 5
 
 
 
-• Exercices
-(-b +/- math.sqrt(b**2 - 4*a*c)) / (2 * a)
-ou
-a= -5.6
-b = 31.1
-c= 9-2
--b+(b**2 -4*a*c)**(1/2))/(2a)
+# • Exercices
+# (-b +/- math.sqrt(b**2 - 4*a*c)) / (2 * a)
+# ou
+# a= -5.6
+# b = 31.1
+# c= 9-2
+# -b+(b**2 -4*a*c)**(1/2))/(2a)
 
-1. 4x2 + 17x - 1 = 0, x = ?
-    (-17+math.sqrt(17**2-4*4*-1))/2*4
-    0.9284983931459578
+# 1. 4x2 + 17x - 1 = 0, x = ?
+#     (-17+math.sqrt(17**2-4*4*-1))/2*4
+#     0.9284983931459578
 
-2. -5.6x2 + 31.1x + 9 = 2, x = ?
-    (-31.1 + math.sqrt(31.1**2 - 4*-5.6*7)) / (2 * -5.6)
-    -0.21663021121832812
+# 2. -5.6x2 + 31.1x + 9 = 2, x = ?
+#     (-31.1 + math.sqrt(31.1**2 - 4*-5.6*7)) / (2 * -5.6)
+#     -0.21663021121832812
 
-3. 8x2-1265.789x = 0, x = ?
-    a = 8
-    b = -1265.789
-    c = 0
+# 3. 8x2-1265.789x = 0, x = ?
+#     a = 8
+#     b = -1265.789
+#     c = 0
 
-    (-1265.789 + math.sqrt(-1265.789**2-4*8*0))
-    no root
+#     (-1265.789 + math.sqrt(-1265.789**2-4*8*0))
+#     no root
 
-4. L'aire d'un cercle ayant pour diamètre 3.64m
-(indice, utilisez math.pi)
+# 4. L'aire d'un cercle ayant pour diamètre 3.64m
+# (indice, utilisez math.pi)
 
-     import math 
-    -y = 4*math.pi * (x/2)**2
+#      import math 
+#     -y = 4*math.pi * (x/2)**2
 
-5. L'aire extérieur d’un prisme rectangulaire aux
-dimensions suivantes: 4.5cm, 7cm, 12.75cm.
+# 5. L'aire extérieur d’un prisme rectangulaire aux
+# dimensions suivantes: 4.5cm, 7cm, 12.75cm.
 
-    largeur = 7
-    longueur = 4.5
-    hauteur = 12.75
+#     largeur = 7
+#     longueur = 4.5
+#     hauteur = 12.75
 
-    2*(longueur*largeur) + 2*(longueur*hauteur) + 2*(largeur * hauteur)
+#     2*(longueur*largeur) + 2*(longueur*hauteur) + 2*(largeur * hauteur)
 
-6. Volume d'un tipi ayant un rayon de 2.176 m et
-une hauteur de 3.5m.
-    (math.pi *2.176**2 *3.5)/3
-    17.35459345261132
+# 6. Volume d'un tipi ayant un rayon de 2.176 m et
+# une hauteur de 3.5m.
+#     (math.pi *2.176**2 *3.5)/3
+#     17.35459345261132
 
 # Chaine
-    - sois guillemet simple ou double 
+    # - sois guillemet simple ou double 
 
-'je suis "stupide" '
+# 'je suis "stupide" '
 
 
-• Exercices
-1. Trouvez comment inverser une chaîne.
+# • Exercices
+# 1. Trouvez comment inverser une chaîne.
 
->>> text = "allo" [::-1]
->>> print(text)
+# >>> text = "allo" [::-1]
+# >>> print(text)
 
-2. Si on a des variables dont on veut insérer les
-valeurs dans une chaîne formatée, python
-nous permet de le faire, comment?
+# 2. Si on a des variables dont on veut insérer les
+# valeurs dans une chaîne formatée, python
+# nous permet de le faire, comment?
 
->>> test = 'une valeur de %s'
->>> x = ' une string %s avec '
->>> y = "valeur"
->>> x % test % y
-' une string une valeur de valeur avec '
+# # >>> test = 'une valeur de %s'
+# >>> x = ' une string %s avec '
+# >>> y = "valeur"
+# >>> x % test % y
+# ' une string une valeur de valeur avec '
 
-```python
 nom = "Alice"
 age = 30
 
@@ -84,13 +83,13 @@ age = 30
 # Utilisation des f-strings
 message = f"Bonjour, je m'appelle {nom} et j'ai {age} ans."
 
-```
 
 
-3. Comment isoleriez-vous la chaîne « les » à
-partir de la chaîne « Allo les amis ! »?
 
-``` python
+# 3. Comment isoleriez-vous la chaîne « les » à
+# partir de la chaîne « Allo les amis ! »?
+
+
 chaine = "Allo les amis !"
 
 # Isoler la sous-chaîne "les" en utilisant l'indexation
@@ -104,13 +103,12 @@ mots = chaine.split()
 
 # Isoler la sous-chaîne "les" en accédant au deuxième mot
 sous_chaine = mots[1]
-```
 
-Listes
+# Listes
 
-1. Dans quel contexte utiliserait-on l[:] = [] plutôt que l = []?
+# 1. Dans quel contexte utiliserait-on l[:] = [] plutôt que l = []?
 
-```python
+
 liste1 = [1, 2, 3]
 liste2 = liste1  # Les deux variables référencent la même liste
 
@@ -123,11 +121,11 @@ print(liste2)  # Affiche toujours [1, 2, 3]
 # En revanche, si vous utilisez la notation l[:] = [],
 # cela modifie directement la liste référencée par les deux variables
 liste1[:] = []
-```
 
-2. Construisez un tableau de zéros de 2 X 5 avec des listes, au moins de deux manières différentes.
 
-```python 
+# 2. Construisez un tableau de zéros de 2 X 5 avec des listes, au moins de deux manières différentes.
+
+
 tableau_zeros = [[0] * 5 for _ in range(2)]
 print(tableau_zeros)
 
@@ -136,11 +134,10 @@ tableau_zeros = [[0] * 5] * 2
 print(tableau_zeros)
 
 
-```
 
 
-```python
- Nombre de mois
+
+#  Nombre de mois
 mois = 18
 
 # Initialisation des nombres de paires de lapins pour les deux premiers mois
@@ -164,9 +161,7 @@ for i in range(2, mois + 1):
 
 # Affichage du nombre total de paires de lapins après 18 mois
 print("Le nombre total de paires de lapins après 18 mois est :", total_paires)
-```
 
-```python 
 def fib_recursive(n):
     # Cas de base : les deux premiers nombres de Fibonacci sont 1
     if n <= 1:
@@ -201,24 +196,22 @@ resultat_dynamique = fib_dynamique(10)
 print("Le 10e nombre de Fibonacci (dynamique) est :", resultat_dynamique)
 
 
-```
+# Qu’arrive-t-il lorsqu’on lance la fonction fibonacci récursive sur de grosses valeurs?
+# Par exemple, 40…
+# Solution?
+# Itération
+# Programmation dynamique
 
-Qu’arrive-t-il lorsqu’on lance la fonction fibonacci récursive sur de grosses valeurs?
-Par exemple, 40…
-Solution?
-Itération
-Programmation dynamique
+# L'approche itérative consiste à calculer les nombres de Fibonacci à partir des deux premiers termes (1 et 1) en utilisant une boucle pour itérer jusqu'au nombre désiré. Cela évite la surcharge d'appels de fonction récursive.
 
-L'approche itérative consiste à calculer les nombres de Fibonacci à partir des deux premiers termes (1 et 1) en utilisant une boucle pour itérer jusqu'au nombre désiré. Cela évite la surcharge d'appels de fonction récursive.
+# Programmation dynamique :
+# Dans cette approche, vous stockez les résultats intermédiaires des nombres de Fibonacci déjà calculés dans une table de mémoïsation. Lorsque vous devez calculer le n-ième nombre de Fibonacci, vous vérifiez d'abord s'il est déjà calculé dans la table de mémoïsation. Si c'est le cas, vous le récupérez à partir de là plutôt que de le recalculer. Cela élimine la redondance des calculs et améliore considérablement les performances.
 
-Programmation dynamique :
-Dans cette approche, vous stockez les résultats intermédiaires des nombres de Fibonacci déjà calculés dans une table de mémoïsation. Lorsque vous devez calculer le n-ième nombre de Fibonacci, vous vérifiez d'abord s'il est déjà calculé dans la table de mémoïsation. Si c'est le cas, vous le récupérez à partir de là plutôt que de le recalculer. Cela élimine la redondance des calculs et améliore considérablement les performances.
+# Voici comment vous pouvez implémenter ces deux solutions en Python :
 
-Voici comment vous pouvez implémenter ces deux solutions en Python :
+# Itération :
+# python
 
-Itération :
-python
-Copy code
 def fib_iteratif(n):
     a, b = 1, 1
     for _ in range(n - 1):
@@ -228,9 +221,15 @@ def fib_iteratif(n):
 # Test de la fonction fib() itérative pour calculer le 40e nombre de Fibonacci
 resultat_iteratif = fib_iteratif(40)
 print("Le 40e nombre de Fibonacci (itératif) est :", resultat_iteratif)
-Programmation dynamique :
-python
-Copy code
+# Programmation dynamique :
+# python
+
+
+# def fibdyne(n,solutions):
+#     if n not in solutions:
+
+#     return solutions[0]
+
 def fib_dynamique(n):
     memo = {}
     memo[0] = memo[1] = 1
@@ -242,13 +241,39 @@ def fib_dynamique(n):
 resultat_dynamique = fib_dynamique(40)
 print("Le 40e nombre de Fibonacci (dynamique) est :", resultat_dynamique)
 
-```python 
+
+
+
+
+# lire les text
+from sys import argv
+
+def lire(chemin, encodage):
+    f = open(chemin, 'r', encodage=encodage)
+    text = f.read()
+    f.close()
+    
+    return text
+
+def main():
+    chemin = argv[1]
+    encodage= argv[2]
+    text = lire(chemin, encodage)
+    
+    print(text)
+    
+    return 0
+
+if __name__ == '__main__':
+    main()
+
+
 def compter_lignes(nom_fichier):
     with open(nom_fichier, 'r', encoding='utf-8') as fichier:
         lignes = fichier.readlines()
     return len(lignes)
 
-# Test de la fonction pour compter le nombre de lignes dans le fichier "LesTroisMousquetaires.txt"
+
 nb_lignes = compter_lignes("LesTroisMousquetaires.txt")
 print("Nombre de lignes dans le fichier:", nb_lignes)
 
@@ -258,7 +283,6 @@ def compter_caracteres(nom_fichier):
         contenu = fichier.read()
     return len(contenu)
 
-# Test de la fonction pour compter le nombre de caractères dans le fichier "LesTroisMousquetaires.txt"
 nb_caracteres = compter_caracteres("LesTroisMousquetaires.txt")
 print("Nombre de caractères dans le fichier:", nb_caracteres)
 
@@ -268,7 +292,6 @@ def compter_mots(nom_fichier):
     mots = contenu.split()
     return len(mots)
 
-# Test de la fonction pour compter le nombre de mots dans le fichier "LesTroisMousquetaires.txt"
 nb_mots = compter_mots("LesTroisMousquetaires.txt")
 print("Nombre de mots dans le fichier:", nb_mots)
 
@@ -279,20 +302,19 @@ def compter_virgules(nom_fichier):
     nb_virgules = contenu.count(',')
     return nb_virgules
 
-# Test de la fonction pour compter le nombre de virgules dans le fichier "LesTroisMousquetaires.txt"
 nb_virgules = compter_virgules("LesTroisMousquetaires.txt")
 print("Nombre de virgules dans le fichier:", nb_virgules)
-```
 
 
-Exercices
-Créer une classe qui peut lire 'LesTroisMousquetaires.txt' et qui peut 'répondre' aux messages suivants:
-Nombre de caractères
-Nombre de lignes
-Nombre de mots
-Nombre de séquences de caractères s, où s est fournie en argument
 
-```python
+# Exercices
+# Créer une classe qui peut lire 'LesTroisMousquetaires.txt' et qui peut 'répondre' aux messages suivants:
+# Nombre de caractères
+# Nombre de lignes
+# Nombre de mots
+# Nombre de séquences de caractères s, où s est fournie en argument
+
+
 class AnalyseurTexte:
     def __init__(self, nom_fichier):
         self.nom_fichier = nom_fichier
@@ -327,4 +349,3 @@ print("Nombre de mots:", analyseur.compter_mots())
 # Exemple d'utilisation de la méthode pour compter le nombre de séquences de caractères
 sequence_a_compter = 'Athos'
 print(f"Nombre de séquences de '{sequence_a_compter}':", analyseur.compter_sequences(sequence_a_compter))
-```
