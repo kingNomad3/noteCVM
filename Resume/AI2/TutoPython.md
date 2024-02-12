@@ -5,7 +5,7 @@
 
 - Pour ouvrir l'interprète Python, vous pouvez :
   - Trouver l'application dans le menu démarrer.
-  - Utiliser la ligne de commande en tapant `python`.
+  - Utiliser la ligne de commande en tapant `idl`.
   - Utiliser IDLE, l'environnement de développement intégré pour Python.
 
 ### Commentaires
@@ -22,12 +22,16 @@
 - Addition : `3 + 2` donne `5`
 - Soustraction : `5 - 3` donne `2`
 - Multiplication : `2 * 3` donne `6`
-- Division : `8 / 2` donne `4.0`
+- Division : `8 / 2` donne `4.0` la fraction n'est pas perdu 
 
 ### Division entière et Modulo
 
 - Division entière : `7 // 2` donne `3`
 - Modulo (reste de la division) : `7 % 2` donne `1`
+
+*Attention* le plancher est toujours la valeur inférieur
+
+
 
 ### Puissance
 
@@ -38,6 +42,8 @@
 ### Affectation de variables
 
 - `x = 10` assigne la valeur `10` à la variable `x`.
+- `x = y =z = 0` ils seront tous assigné à 0
+
 
 ### Types de données
 
@@ -53,6 +59,26 @@
 - Convertir un flottant en entier : `int(10.5)` donne `10`.
 - Convertir un entier en flottant : `float(10)` donne `10.0`.
 - Convertir une valeur en chaîne de caractères : `str(10)` donne `"10"`.
+- int(3*3.75/1.5) donne 7
+- flaot(8//5) donne 1.0
+
+### type mélangé
+- 3 * 3.75 /1.5 donne 7.5 
+- 7.0 /2 donne 3.5
+
+- Une convertion automatique en flaot 
+
+## round
+- round(6.6) = 7 ''
+
+## Math
+```python
+import math
+math.sqrt(4)
+# 2.0
+math.pow(2,3)
+#8.0
+```
 
 ## Chaînes de caractères
 
@@ -64,15 +90,68 @@
   chaine2 = 'Monde'
   ```
 
+chaine3 = "Le caractère backslash (\) est utilisé pour échapper des caractères spéciaux dans une chaîne de caractères."
+
+chaine4 = 'Il peut également introduire des séquences spéciales, telles que \\n pour une nouvelle ligne ou \\t pour une tabulation.'
+
+chaine = "L'apostrophe peut être incluse dans une chaîne en utilisant des guillemets doubles."
+
+chaine = 'L\'apostrophe peut être incluse dans une chaîne en utilisant un caractère d\'échappement.'
+
+### Triple apostrophes ou guillemets
+Afin d'éviter d'utiliser le symbole antislash (backslash) pour échapper à la fin de ligne, on peut utiliser trois apostrophes ou trois guillemets.
+
+Cette méthode conserve les espaces blancs saisis lors de l’entrée de la chaîne.
+Et, comme on a vu précédemment, si on n’assigne pas à une variable, rien ne se produit.
+On peut donc l’utiliser pour faire des commentaires multilignes.
+
+```python 
+chaine_multiligne = '''
+Ceci est une chaîne de caractères
+sur plusieurs lignes.
+Elle conserve les espaces blancs
+et les retours à la ligne.
+'''
+chaine_multiligne = """
+Ceci est une autre chaîne de caractères
+sur plusieurs lignes.
+Elle conserve également les espaces blancs
+et les retours à la ligne.
+"""
+```
+
 ### Concaténation et Longueur
 
 - Concaténation : `chaine1 + " " + chaine2` donne `"Bonjour Monde"`.
 - Longueur : `len(chaine1)` donne `7`.
 
+
+
 ### Accès et Slicing
-.
-- Accès à un caractère : `chaine1[0]` donne `'B'`.
-- Slicing : `chaine1[1:3]` donne `'on'`.
+- 'mot'[0] donne 'm'
+- chain = 'mot' 
+- Accès à un caractère : `chaine1[0]` donne `'m'`.
+
+- chaine = 'abcdefghi'
+- Slicing : `chaine1[2:4]` donne `'cd'`.
+  `chaine1[0:5]` donne `'abcde'`
+  `chaine1[:2]` donne `'ab'`
+  `chaine1[:]` donne tout la chaine
+  `chaine1[0:10000]` donne tout la chaine
+  `chaine1[10:]` donne ' ' 
+  `chaine1[2:1]` donne ' ' 
+
+  `chaine1[-1]` donne `'i'`
+  `chaine1[-2]` donne `'h'`
+  `chaine1[-2:]` donne `'hi'`
+  `chaine1[-2:]` donne tout a par les deux derniere lettre
+  `chaine1[-100:]` donne tout la chaine
+  `chaine1[:-100]` donne tout la chaine
+
+### fonction
+- Len(chaine)
+- chaine[len(chaine) -2] donne 'h'
+
 
 ## Structures de données
 
