@@ -106,3 +106,225 @@ mots = chaine.split()
 sous_chaine = mots[1]
 ```
 
+Listes
+
+1. Dans quel contexte utiliserait-on l[:] = [] plutôt que l = []?
+
+```python
+liste1 = [1, 2, 3]
+liste2 = liste1  # Les deux variables référencent la même liste
+
+# Si vous affectez simplement une nouvelle liste à l'une des variables,
+# cela ne modifie pas l'autre variable
+liste1 = []
+
+print(liste2)  # Affiche toujours [1, 2, 3]
+
+# En revanche, si vous utilisez la notation l[:] = [],
+# cela modifie directement la liste référencée par les deux variables
+liste1[:] = []
+```
+
+2. Construisez un tableau de zéros de 2 X 5 avec des listes, au moins de deux manières différentes.
+
+```python 
+tableau_zeros = [[0] * 5 for _ in range(2)]
+print(tableau_zeros)
+
+tableau_zeros = [[0] * 5] * 2
+
+print(tableau_zeros)
+
+
+```
+
+
+```python
+ Nombre de mois
+mois = 18
+
+# Initialisation des nombres de paires de lapins pour les deux premiers mois
+f0 = 1  # Au mois 0, on a une paire de lapins nouveau-nés
+f1 = 1  # Au mois 1, on a une paire de lapins nouveau-nés qui deviennent adultes
+
+# Initialisation du nombre total de paires de lapins
+total_paires = 0
+
+# Boucle pour calculer le nombre de paires de lapins pour chaque mois
+for i in range(2, mois + 1):
+    # Calcul du nombre de paires de lapins pour le mois actuel en utilisant la formule de Fibonacci
+    fn = f0 + f1
+    
+    # Mise à jour des valeurs pour le prochain mois
+    f0 = f1
+    f1 = fn
+    
+    # Ajout du nombre de paires de lapins pour ce mois au total
+    total_paires += fn
+
+# Affichage du nombre total de paires de lapins après 18 mois
+print("Le nombre total de paires de lapins après 18 mois est :", total_paires)
+```
+
+```python 
+def fib_recursive(n):
+    # Cas de base : les deux premiers nombres de Fibonacci sont 1
+    if n <= 1:
+        return 1
+    else:
+        # Appel récursif pour calculer le n-ième nombre de Fibonacci en additionnant les deux nombres précédents
+        return fib_recursive(n-1) + fib_recursive(n-2)
+
+# Test de la fonction fib() récursive pour calculer le 10e nombre de Fibonacci
+resultat_recursif = fib_recursive(10)
+print("Le 10e nombre de Fibonacci (récursif) est :", resultat_recursif)
+
+
+
+def fib_dynamique(n):
+    # Initialisation du tableau de mémoïsation pour stocker les valeurs déjà calculées
+    memo = {}
+
+    # Cas de base : les deux premiers nombres de Fibonacci sont 1
+    memo[0] = memo[1] = 1
+
+    # Boucle pour calculer les nombres de Fibonacci pour les valeurs de n supérieures à 1
+    for i in range(2, n + 1):
+        # Calcul du nombre de Fibonacci pour la valeur de n en utilisant la programmation dynamique
+        memo[i] = memo[i-1] + memo[i-2]
+
+    # Retourner le résultat pour n
+    return memo[n]
+
+# Test de la fonction fib() avec programmation dynamique pour calculer le 10e nombre de Fibonacci
+resultat_dynamique = fib_dynamique(10)
+print("Le 10e nombre de Fibonacci (dynamique) est :", resultat_dynamique)
+
+
+```
+
+Qu’arrive-t-il lorsqu’on lance la fonction fibonacci récursive sur de grosses valeurs?
+Par exemple, 40…
+Solution?
+Itération
+Programmation dynamique
+
+L'approche itérative consiste à calculer les nombres de Fibonacci à partir des deux premiers termes (1 et 1) en utilisant une boucle pour itérer jusqu'au nombre désiré. Cela évite la surcharge d'appels de fonction récursive.
+
+Programmation dynamique :
+Dans cette approche, vous stockez les résultats intermédiaires des nombres de Fibonacci déjà calculés dans une table de mémoïsation. Lorsque vous devez calculer le n-ième nombre de Fibonacci, vous vérifiez d'abord s'il est déjà calculé dans la table de mémoïsation. Si c'est le cas, vous le récupérez à partir de là plutôt que de le recalculer. Cela élimine la redondance des calculs et améliore considérablement les performances.
+
+Voici comment vous pouvez implémenter ces deux solutions en Python :
+
+Itération :
+python
+Copy code
+def fib_iteratif(n):
+    a, b = 1, 1
+    for _ in range(n - 1):
+        a, b = b, a + b
+    return a
+
+# Test de la fonction fib() itérative pour calculer le 40e nombre de Fibonacci
+resultat_iteratif = fib_iteratif(40)
+print("Le 40e nombre de Fibonacci (itératif) est :", resultat_iteratif)
+Programmation dynamique :
+python
+Copy code
+def fib_dynamique(n):
+    memo = {}
+    memo[0] = memo[1] = 1
+    for i in range(2, n + 1):
+        memo[i] = memo[i-1] + memo[i-2]
+    return memo[n]
+
+# Test de la fonction fib() avec programmation dynamique pour calculer le 40e nombre de Fibonacci
+resultat_dynamique = fib_dynamique(40)
+print("Le 40e nombre de Fibonacci (dynamique) est :", resultat_dynamique)
+
+```python 
+def compter_lignes(nom_fichier):
+    with open(nom_fichier, 'r', encoding='utf-8') as fichier:
+        lignes = fichier.readlines()
+    return len(lignes)
+
+# Test de la fonction pour compter le nombre de lignes dans le fichier "LesTroisMousquetaires.txt"
+nb_lignes = compter_lignes("LesTroisMousquetaires.txt")
+print("Nombre de lignes dans le fichier:", nb_lignes)
+
+
+def compter_caracteres(nom_fichier):
+    with open(nom_fichier, 'r', encoding='utf-8') as fichier:
+        contenu = fichier.read()
+    return len(contenu)
+
+# Test de la fonction pour compter le nombre de caractères dans le fichier "LesTroisMousquetaires.txt"
+nb_caracteres = compter_caracteres("LesTroisMousquetaires.txt")
+print("Nombre de caractères dans le fichier:", nb_caracteres)
+
+def compter_mots(nom_fichier):
+    with open(nom_fichier, 'r', encoding='utf-8') as fichier:
+        contenu = fichier.read()
+    mots = contenu.split()
+    return len(mots)
+
+# Test de la fonction pour compter le nombre de mots dans le fichier "LesTroisMousquetaires.txt"
+nb_mots = compter_mots("LesTroisMousquetaires.txt")
+print("Nombre de mots dans le fichier:", nb_mots)
+
+
+def compter_virgules(nom_fichier):
+    with open(nom_fichier, 'r', encoding='utf-8') as fichier:
+        contenu = fichier.read()
+    nb_virgules = contenu.count(',')
+    return nb_virgules
+
+# Test de la fonction pour compter le nombre de virgules dans le fichier "LesTroisMousquetaires.txt"
+nb_virgules = compter_virgules("LesTroisMousquetaires.txt")
+print("Nombre de virgules dans le fichier:", nb_virgules)
+```
+
+
+Exercices
+Créer une classe qui peut lire 'LesTroisMousquetaires.txt' et qui peut 'répondre' aux messages suivants:
+Nombre de caractères
+Nombre de lignes
+Nombre de mots
+Nombre de séquences de caractères s, où s est fournie en argument
+
+```python
+class AnalyseurTexte:
+    def __init__(self, nom_fichier):
+        self.nom_fichier = nom_fichier
+        self.contenu = self.lire_fichier()
+
+    def lire_fichier(self):
+        with open(self.nom_fichier, 'r', encoding='utf-8') as file:
+            contenu = file.read()
+        return contenu
+
+    def compter_caracteres(self):
+        return len(self.contenu)
+
+    def compter_lignes(self):
+        return self.contenu.count('\n') + 1
+
+    def compter_mots(self):
+        return len(self.contenu.split())
+
+    def compter_sequences(self, sequence):
+        return self.contenu.count(sequence)
+
+
+# Utilisation de la classe pour analyser le fichier LesTroisMousquetaires.txt
+analyseur = AnalyseurTexte("LesTroisMousquetaires.txt")
+
+# Exemple d'utilisation des méthodes de la classe
+print("Nombre de caractères:", analyseur.compter_caracteres())
+print("Nombre de lignes:", analyseur.compter_lignes())
+print("Nombre de mots:", analyseur.compter_mots())
+
+# Exemple d'utilisation de la méthode pour compter le nombre de séquences de caractères
+sequence_a_compter = 'Athos'
+print(f"Nombre de séquences de '{sequence_a_compter}':", analyseur.compter_sequences(sequence_a_compter))
+```

@@ -174,7 +174,7 @@ et les retours à la ligne.
     for j in range(5):
       l[-1].append(0)
 ```
-### Tuples
+### Tuples ------------------------------------------
 
 creer un tuples
 t =1,2,3
