@@ -1,45 +1,30 @@
-# DunderFunction
+# Méthodes Spéciales (Dunder Methods) en Python
 
-- Ils sont lier au cicle de vie de l'objet. ils sont appeler l'un apres l'autre.
+## Méthodes de Cycle de Vie
+- **`__new__`** : Appelé avant `__init__`, utilisé pour créer une nouvelle instance de la classe, notamment pour les classes immuables.
+- **`__init__`** : Appelé après `__new__`, sert à initialiser l'instance de la classe.
+- **`__del__`** : Appelé avant que l'instance de la classe ne soit supprimée. Son utilisation est déconseillée car le moment de son appel peut être imprévisible.
 
-__new__ : il est appelé avant __init__ et est utilisé pour créer une nouvelle instance de la classe. Il est également utilisé pour créer des classes immuables. TJRS appeler, constructeur
-__init__ : il est appelé après __new__ et est utilisé pour initialiser l'instance de la classe. TJRS appeler, initialisateur
-__del__ : il est appelé avant la suppression de l'instance de la classe. TJRS appeler, destructeur. On ne devrait pas utiliser celui la car il est difficile de savoir quand il sera appeler.
+## Représentation des Objets
+- **`__str__(self) -> str`** : Appelé par `print()` pour afficher l'objet de manière lisible par l'humain. Doit retourner une chaîne de caractères.
+- **`__repr__(self) -> str`** : Appelé par `repr()` pour afficher l'objet. Doit retourner une chaîne de caractères qui pourrait être utilisée pour recréer l'objet (représentation plus technique).
+- **`__format__(self, format_spec: str) -> str`** : Appelé par `format()` pour formater l'objet selon un spécificateur de format donné. Doit retourner une chaîne de caractères formatée.
 
+## Opérations Mathématiques
+- **`__int__(self) -> int`** : Convertit l'objet en un entier.
+- **`__float__(self) -> float`** : Convertit l'objet en un flottant.
+- **`__complex__(self) -> complex`** : Convertit l'objet en un complexe.
+- **`__bool__(self) -> bool`** : Convertit l'objet en booléen.
 
-# representation des objets
+## Opérations de Conteneur
+- **`__eq__(self, other)`** : Définit le comportement pour l'égalité, `a == b`.
+- **`__lt__(self, other)`** : Définit le comportement pour les comparaisons inférieures, `a < b`, utile pour le tri.
+- **`__len__(self) -> int`** : Retourne la longueur de l'objet, utilisé par `len()`.
 
-__str__(self)->str : il est appelé par la fonction print() pour afficher l'objet. c'est la conversion de l'objet sous forme character Il doit retourner une chaîne de caractères, in humain readerble
-__repr__(self)->str : il est appelé par la fonction repr() pour afficher l'objet. onversion sous forme de caractere Il doit retourner une chaîne de caractères. representation technique (codeux)
-__format__(self, format:str)->str : il est appelé par la fonction format() pour afficher l'objet. Il doit retourner une chaîne de caractères. String format, customizer notre string
+## Opérations sur les Séquences
+- **`__iter__(self)`** : Rend l'objet itérable, utilisé par `iter()`.
+- **`__next__(self)`** : Renvoie l'élément suivant de l'itérable, utilisé par `next()`. Doit lever `StopIteration` si il n'y a pas d'élément suivant.
+- **`__reversed__(self)`** : Renvoie un itérable inversé de l'objet, utilisé par `reversed()`.
 
-
-# operation mathematique
-
-- Conversion de l'objet en un autre type
-
-__int__(self)->int : il est appelé par la fonction int() pour convertir l'objet en entier. Il doit retourner un entier.
-__float__(self)->float : il est appelé par la fonction float() pour convertir l'objet en flottant. Il doit retourner un flottant.
-__complex__(self)->complex : il est appelé par la fonction complex() pour convertir l'objet en complexe. Il doit retourner un complexe.
-__bool__(self)->bool : il est appelé par la fonction bool() pour convertir l'objet en booléen. Il doit retourner un booléen.
-
-
-# operation de conteneur
-__eq__ : a==b, 
-__lt__ : a<b, nous pouvons appeler la fonction sort sur notre objet 
-
-
-
-__len__(self)->int : il est appelé par la fonction len() pour retourner la longueur de l'objet. Il doit retourner un entier.
-
-
-
-# operation sur les sequences
-__next__(self) : il est appelé par la fonction next() pour retourner l'élément suivant de l'objet. Il doit retourner l'élément suivant de l'objet. Il doit lever l'exception StopIteration si l'objet n'a pas d'élément suivant.
-__iter__(self) : il est appelé par la fonction iter() pour retourner un itérable de l'objet. Il doit retourner un itérable de l'objet.
-__reversed__(self) : il est appelé par la fonction reversed() pour retourner un itérable inversé de l'objet. Il doit retourner un itérable inversé de l'objet.
-
-# bufer circulair
-
-- nous avons 10 espaces, lorsque nous arrivons a 10, nous revenons a 0
-
+## Buffer Circulaire
+- Concept de gestion de mémoire où, après avoir atteint la capacité maximale, les indices recommencent à zéro.
