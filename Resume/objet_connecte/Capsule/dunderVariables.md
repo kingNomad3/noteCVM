@@ -36,9 +36,9 @@ Les variables Dunder, également connues sous le nom de méthodes magiques ou sp
 
 ### Variables Dunder Courantes :
 
-1. `__name__`: 
-   - **Utilisation**: Disponible dans les modules, les fonctions et les classes.
-   - **But**: Représente le nom du module ou de la fonction actuelle. Lorsqu'un fichier Python est exécuté directement, son `__name__` est défini sur `'__main__'`.
+1. __name__:
+Utilisation: Disponible dans les modules, les fonctions et les classes.
+But: Représente le nom du module ou de la fonction actuelle. Lorsqu'un fichier Python est exécuté directement, son __name__ est défini sur '__main__'.
 
 ```python 
 # Exemple d'utilisation de __name__ dans un module
@@ -48,7 +48,7 @@ def main():
     print("Ceci est le module principal.")
 
 if __name__ == "__main__":
-    main()
+    main() # Affiche "Ceci est le module principal."
 ```
 
 2. `__doc__`: 
@@ -62,7 +62,7 @@ def greet(name):
     """Fonction pour saluer une personne."""
     print(f"Bonjour, {name}!")
 
-print(greet.__doc__)
+print(greet.__doc__) # Affiche "Fonction pour saluer une personne."
 ```
 
 3. `__file__`: 
@@ -74,7 +74,7 @@ print(greet.__doc__)
 
 import os
 
-print("Chemin du fichier actuel:", os.path.abspath(__file__))
+print("Chemin du fichier actuel:", os.path.abspath(__file__)) # Affiche "Chemin absolue du fichier actuel: /chemin/vers/le/fichier.py"
 ```
 
 4. `__dict__`: 
@@ -90,20 +90,21 @@ class Person:
         self.age = age
 
 person1 = Person("Alice", 30)
-print(person1.__dict__)
+print(person1.__dict__) # Affiche "{'name': 'Alice', 'age': 30}"
 ```
 
 5. `__defaults__`: 
    - **Utilisation**: Disponible dans les fonctions et les méthodes.
    - **But**: Stocke les valeurs par défaut des arguments pour les objets appelables. Utile pour manipuler les fonctions avec des paramètres optionnels.
 
-```
+
 # Exemple d'utilisation de __defaults__ dans une fonction
 
+```python
 def greet(name, greeting="Hello"):
     print(f"{greeting}, {name}!")
 
-print(greet.__defaults__)
+print(greet.__defaults__) # Affiche "('Hello',)" car 'Hello' est la valeur par défaut de l'argument 'greeting'
 ```
 
 6. `__kwdefaults__`: 
@@ -116,7 +117,7 @@ print(greet.__defaults__)
 def greet(name, greeting="Hello", *, punctuation="!"):
     print(f"{greeting}, {name}{punctuation}")
 
-print(greet.__kwdefaults__)
+print(greet.__kwdefaults__) # Affiche "{'punctuation': '!'}" car '!' est la valeur par défaut de l'argument de mot-clé 'punctuation'
 ```
 
 
@@ -135,7 +136,7 @@ def outer_function(x):
 
 closure = outer_function(5).__closure__
 if closure:
-    print("Variables dans le __closure__ de inner_function:", [cell.cell_contents for cell in closure])
+    print("Variables dans le __closure__ de inner_function:", [cell.cell_contents for cell in closure]) # Afficche "Variables dans le __closure__ de inner_function: [5, 10]"
 else:
     print("Pas de __closure__.")
 ```

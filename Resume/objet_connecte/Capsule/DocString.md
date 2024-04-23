@@ -5,6 +5,7 @@
     - Il est utilisé pour décrire ce que fait une fonction, comment elle fonctionne et ce que l'utilisateur doit savoir pour l'utiliser.
     - Le docstring est placé juste après la signature de la fonction, de la classe ou de la méthode, et est délimité par des triples guillemets.
         ex:
+        
         ```python
         def ma_fonction():
             """Ce docstring décrit ce que fait la fonction."""
@@ -23,15 +24,9 @@
         ```
     print(f.__doc__)
 
-# TODO demander a chat la difference 
-    ""  
-    '' 
-    """ """ 
-    ''' '''
-    ''' '''
-
-- peuvent etre utiliser pour les docstring mais la convention est d'utiliser """ """
-- la convention est un one liner pour les docstring et avec un point a la fin (WORO)  pep 257
+# dcotruring
+Les docstrings peuvent être délimités par "", '', """ """, ''' ''', mais la convention est d'utiliser """ """.
+La convention est d'utiliser une ligne pour les docstrings avec un point à la fin (WORO) selon le PEP 257.
 
 
 ## Exemple
