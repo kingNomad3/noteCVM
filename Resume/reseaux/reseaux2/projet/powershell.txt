@@ -1,0 +1,86 @@
+# Création de l'unité d'organisation "INFORMATIQUE" directement sous le domaine
+New-ADOrganizationalUnit -Name "INFORMATIQUE" -Path "DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+# Création de l'unité d'organisation "Utilisateurs" sous l'unité d'organisation "INFORMATIQUE"
+New-ADOrganizationalUnit -Name "Utilisateurs" -Path "OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+
+# Création des unités d'organisation pour les employés et les gestionnaires sous l'unité "Utilisateurs"
+	# Les concepteurs WEB
+	New-ADOrganizationalUnit -Name "ConcepteursWEB_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+	New-ADOrganizationalUnit -Name "ConcepteursWEB_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+	# Les programmeurs Android
+	New-ADOrganizationalUnit -Name "ProgrammeursAndroid_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+	New-ADOrganizationalUnit -Name "ProgrammeursAndroid_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+# Les programmeurs Python
+New-ADOrganizationalUnit -Name "ProgrammeursPython_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+New-ADOrganizationalUnit -Name "ProgrammeursPython_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+# Les techniciens du réseau
+New-ADOrganizationalUnit -Name "TechniciensReseau_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+New-ADOrganizationalUnit -Name "TechniciensReseau_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+# Les testeurs de logiciels Android
+New-ADOrganizationalUnit -Name "TesteursAndroid_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+New-ADOrganizationalUnit -Name "TesteursAndroid_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+# Les testeurs de logiciels Python
+New-ADOrganizationalUnit -Name "TesteursPython_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+New-ADOrganizationalUnit -Name "TesteursPython_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+
+# Création de l'unité d'organisation "Groupes" sous l'unité d'organisation "INFORMATIQUE"
+New-ADOrganizationalUnit -Name "Groupes" -Path "OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+
+# Création de l'unité d'organisation "Ordinateurs" sous l'unité d'organisation "INFORMATIQUE"
+New-ADOrganizationalUnit -Name "Ordinateurs" -Path "OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+
+# Ajout d'un ordinateur fictif à l'unité d'organisation "Ordinateurs"
+New-ADComputer -Name "NomDeLordinateur" -Path "OU=Ordinateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" 
+
+
+
+
+
+Remove-ADOrganizationalUnit -Identity "OU=INFORMATIQUE,DC=ETU1662413,DC=local" -Recursive
+
+
+
+
+
+# Création de l'unité d'organisation "Concepteurs WEB" pour les employés et les gestionnaires
+New-ADOrganizationalUnit -Name "ConcepteursWEB_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
+New-ADOrganizationalUnit -Name "ConcepteursWEB_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
+
+# Création de l'unité d'organisation "Programmeurs Android" pour les employés et les gestionnaires
+New-ADOrganizationalUnit -Name "ProgrammeursAndroid_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
+New-ADOrganizationalUnit -Name "ProgrammeursAndroid_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
+
+# Création de l'unité d'organisation "Programmeurs Python" pour les employés et les gestionnaires
+New-ADOrganizationalUnit -Name "ProgrammeursPython_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
+New-ADOrganizationalUnit -Name "ProgrammeursPython_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
+
+# Création de l'unité d'organisation "Techniciens du réseau" pour les employés et les gestionnaires
+New-ADOrganizationalUnit -Name "TechniciensReseau_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
+New-ADOrganizationalUnit -Name "TechniciensReseau_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
+
+# Création de l'unité d'organisation "Testeurs de logiciels Android" pour les employés et les gestionnaires
+New-ADOrganizationalUnit -Name "TesteursAndroid_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
+New-ADOrganizationalUnit -Name "TesteursAndroid_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
+
+# Création de l'unité d'organisation "Testeurs de logiciels Python" pour les employés et les gestionnaires
+New-ADOrganizationalUnit -Name "TesteursPython_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
+New-ADOrganizationalUnit -Name "TesteursPython_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
+
+# Création de l'unité d'organisation "Groupes" pour contenir les groupes de domaine
+New-ADOrganizationalUnit -Name "Groupes" -Path "OU=INFORMATIQUE,DC=votre_domaine,DC=com"
+
+# Création de l'unité d'organisation "Ordinateurs" pour les ordinateurs membres du domaine
+New-ADOrganizationalUnit -Name "Ordinateurs" -Path "OU=INFORMATIQUE,DC=votre_domaine,DC=com"
+
+# Ajout d'un ordinateur fictif à l'unité d'organisation "Ordinateurs"
+New-ADComputer -Name "NomDeLordinateur" -Path "OU=Ordinateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
