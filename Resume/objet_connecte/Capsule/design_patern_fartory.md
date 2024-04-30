@@ -128,3 +128,7 @@ print(draw_shape("circle"))    # Output: Circle drawn
 print(draw_shape("square"))    # Output: Square drawn
 print(draw_shape("triangle"))  # Output: Triangle drawn
 ```
+
+
+class transition, p20 pt2 ligne mauve 
+tranisation transition hirrieter de transistion:  la transition va slm le faire lorsquòn appuie sur left 
