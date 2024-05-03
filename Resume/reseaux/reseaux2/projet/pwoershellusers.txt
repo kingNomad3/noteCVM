@@ -114,10 +114,7 @@ foreach ($utilisateur in $utilisateurs) {
         default { "" }
     }
 
-    if (![string]::IsNullOrWhiteSpace($nomGroupe)) {
-        Add-ADGroupMember -Identity $nomGroupe -Members $utilisateur.NOM
-    }
-
+   
     # Déplacer l'utilisateur vers son unité d'organisation respective
     if (![string]::IsNullOrWhiteSpace($nomGroupe)) {
         Move-ADObject -Identity "CN=$($utilisateur.NOM),OU=Utilisateurs,OU=Informatique,DC=ETU1662413,DC=local" -TargetPath "OU=$nomGroupe,OU=Utilisateurs,OU=Informatique,DC=ETU1662413,DC=local"
