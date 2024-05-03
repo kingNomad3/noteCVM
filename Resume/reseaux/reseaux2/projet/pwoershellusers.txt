@@ -1,0 +1,125 @@
+# Création de l'unité d'organisation "Groupes" sous l'unité d'organisation "Informatique"
+New-ADOrganizationalUnit -Name "Groupes" -Path "OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+# Création des groupes
+$groupes = @(
+    @{
+        Nom = "ProgrammeursPython_Employes"
+        Description = "Groupe des programmeurs Python (employés)"
+        MatriculeMin = 10000
+        MatriculeMax = 19999
+    },
+    @{
+        Nom = "ProgrammeursPython_Gestionnaires"
+        Description = "Groupe des programmeurs Python (gestionnaires)"
+        MatriculeMin = 10000
+        MatriculeMax = 10000
+    },
+    @{
+        Nom = "ProgrammeursAndroid_Employes"
+        Description = "Groupe des programmeurs Android (employés)"
+        MatriculeMin = 20000
+        MatriculeMax = 29999
+    },
+    @{
+        Nom = "ProgrammeursAndroid_Gestionnaires"
+        Description = "Groupe des programmeurs Android (gestionnaires)"
+        MatriculeMin = 20000
+        MatriculeMax = 20000
+    },
+    @{
+        Nom = "TechniciensReseau_Employes"
+        Description = "Groupe des techniciens du réseau (employés)"
+        MatriculeMin = 30000
+        MatriculeMax = 39999
+    },
+    @{
+        Nom = "TechniciensReseau_Gestionnaires"
+        Description = "Groupe des techniciens du réseau (gestionnaires)"
+        MatriculeMin = 30000
+        MatriculeMax = 30000
+    },
+    @{
+        Nom = "ConcepteursWEB_Employes"
+        Description = "Groupe des concepteurs WEB (employés)"
+        MatriculeMin = 40000
+        MatriculeMax = 49999
+    },
+    @{
+        Nom = "ConcepteursWEB_Gestionnaires"
+        Description = "Groupe des concepteurs WEB (gestionnaires)"
+        MatriculeMin = 40000
+        MatriculeMax = 40000
+    },
+    @{
+        Nom = "TesteursAndroid_Employes"
+        Description = "Groupe des testeurs de logiciels Android (employés)"
+        MatriculeMin = 60000
+        MatriculeMax = 69999
+    },
+    @{
+        Nom = "TesteursAndroid_Gestionnaires"
+        Description = "Groupe des testeurs de logiciels Android (gestionnaires)"
+        MatriculeMin = 60000
+        MatriculeMax = 60000
+    },
+    @{
+        Nom = "TesteursPython_Employes"
+        Description = "Groupe des testeurs de logiciels Python (employés)"
+        MatriculeMin = 50000
+        MatriculeMax = 59999
+    },
+    @{
+        Nom = "TesteursPython_Gestionnaires"
+        Description = "Groupe des testeurs de logiciels Python (gestionnaires)"
+        MatriculeMin = 50000
+        MatriculeMax = 50000
+    }
+)
+
+# Création des groupes avec les descriptions appropriées, de type "Sécurité" et d’étendue "Globale"
+foreach ($groupe in $groupes) {
+    # Création du groupe pour les employés
+    New-ADGroup -Name $groupe.Nom -Description $groupe.Description -GroupScope Global -GroupCategory Security -Path "OU=Groupes,OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+    # Création du groupe pour les gestionnaires
+    if ($groupe.MatriculeMin -eq $groupe.MatriculeMax) {
+        New-ADGroup -Name ($groupe.Nom -replace "_Employes", "_Gestionnaires") -Description ($groupe.Description -replace "\(employés\)", "(gestionnaires)") -GroupScope Global -GroupCategory Security -Path "OU=Groupes,OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+    }
+}
+
+# Création des groupes supplémentaires
+New-ADGroup -Name "TousEmployes" -Description "Groupe contenant tous les employés de la corporation" -GroupScope Global -GroupCategory Security -Path "OU=Groupes,OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+New-ADGroup -Name "TousGestionnaires" -Description "Groupe contenant tous les gestionnaires de la corporation" -GroupScope Global -GroupCategory Security -Path "OU=Groupes,OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+New-ADGroup -Name "TousEmployesEtGestionnaires" -Description "Groupe contenant tous les employés et gestionnaires de la corporation" -GroupScope Global -GroupCategory Security -Path "OU=Groupes,OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+# Ajout des utilisateurs aux groupes et à leurs unités d'organisation respectives
+$utilisateurs = Import-Csv "E:\_S1_INFO\PRATIQUE_ETU.csv" -Delimiter ";"
+
+foreach ($utilisateur in $utilisateurs) {
+    $matricule = $utilisateur.MATRICULE
+    $nomGroupe = switch -Wildcard ($matricule) {
+        {$_ -ge 10000 -and $_ -le 19999} { "ProgrammeursPython_Employes" }
+        {$_ -eq 10000} { "ProgrammeursPython_Gestionnaires" }
+        {$_ -ge 20000 -and $_ -le 29999} { "ProgrammeursAndroid_Employes" }
+        {$_ -eq 20000} { "ProgrammeursAndroid_Gestionnaires" }
+        {$_ -ge 30000 -and $_ -le 39999} { "TechniciensReseau_Employes" }
+        {$_ -eq 30000} { "TechniciensReseau_Gestionnaires" }
+        {$_ -ge 40000 -and $_ -le 49999} { "ConcepteursWEB_Employes" }
+        {$_ -eq 40000} { "ConcepteursWEB_Gestionnaires" }
+        {$_ -ge 60000 -and $_ -le 69999} { "TesteursAndroid_Employes" }
+        {$_ -eq 60000} { "TesteursAndroid_Gestionnaires" }
+        {$_ -ge 50000 -and $_ -le 59999} { "TesteursPython_Employes" }
+        {$_ -eq 50000} { "TesteursPython_Gestionnaires" }
+        default { "" }
+    }
+
+    if (![string]::IsNullOrWhiteSpace($nomGroupe)) {
+        Add-ADGroupMember -Identity $nomGroupe -Members $utilisateur.NOM
+    }
+
+    # Déplacer l'utilisateur vers son unité d'organisation respective
+    if (![string]::IsNullOrWhiteSpace($nomGroupe)) {
+        Move-ADObject -Identity "CN=$($utilisateur.NOM),OU=Utilisateurs,OU=Informatique,DC=ETU1662413,DC=local" -TargetPath "OU=$nomGroupe,OU=Utilisateurs,OU=Informatique,DC=ETU1662413,DC=local"
+    }
+}

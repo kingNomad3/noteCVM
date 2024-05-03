@@ -43,44 +43,78 @@ New-ADOrganizationalUnit -Name "Ordinateurs" -Path "OU=INFORMATIQUE,DC=ETU166241
 New-ADComputer -Name "NomDeLordinateur" -Path "OU=Ordinateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" 
 
 
-
-
-
+------------------------------------------------------------------------------------------------------------------
 Remove-ADOrganizationalUnit -Identity "OU=INFORMATIQUE,DC=ETU1662413,DC=local" -Recursive
 
 
+------------------------------------------------------------------------------------------------------------------
 
+# Création de l'unité d'organisation "Informatique" directement sous le domaine
+New-ADOrganizationalUnit -Name "Informatique" -Path "DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
 
+# Création des unités d'organisation pour les différents groupes
+$groupes = @(
+    "Concepteurs WEB",
+    "Programmeurs Android",
+    "Programmeurs Python",
+    "Techniciens du réseau",
+    "Testeurs de logiciels Android",
+    "Testeurs de logiciels Python"
+)
 
-# Création de l'unité d'organisation "Concepteurs WEB" pour les employés et les gestionnaires
-New-ADOrganizationalUnit -Name "ConcepteursWEB_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
-New-ADOrganizationalUnit -Name "ConcepteursWEB_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
+foreach ($groupe in $groupes) {
+    # Création de l'unité d'organisation pour les employés
+    New-ADOrganizationalUnit -Name "$groupe Employés" -Path "OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
 
-# Création de l'unité d'organisation "Programmeurs Android" pour les employés et les gestionnaires
-New-ADOrganizationalUnit -Name "ProgrammeursAndroid_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
-New-ADOrganizationalUnit -Name "ProgrammeursAndroid_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
+    # Création de l'unité d'organisation pour les gestionnaires
+    New-ADOrganizationalUnit -Name "$groupe Gestionnaires" -Path "OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+}
 
-# Création de l'unité d'organisation "Programmeurs Python" pour les employés et les gestionnaires
-New-ADOrganizationalUnit -Name "ProgrammeursPython_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
-New-ADOrganizationalUnit -Name "ProgrammeursPython_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
+# Création de l'unité d'organisation "Groupes" sous l'unité d'organisation "Informatique"
+New-ADOrganizationalUnit -Name "Groupes" -Path "OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
 
-# Création de l'unité d'organisation "Techniciens du réseau" pour les employés et les gestionnaires
-New-ADOrganizationalUnit -Name "TechniciensReseau_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
-New-ADOrganizationalUnit -Name "TechniciensReseau_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
-
-# Création de l'unité d'organisation "Testeurs de logiciels Android" pour les employés et les gestionnaires
-New-ADOrganizationalUnit -Name "TesteursAndroid_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
-New-ADOrganizationalUnit -Name "TesteursAndroid_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
-
-# Création de l'unité d'organisation "Testeurs de logiciels Python" pour les employés et les gestionnaires
-New-ADOrganizationalUnit -Name "TesteursPython_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
-New-ADOrganizationalUnit -Name "TesteursPython_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
-
-# Création de l'unité d'organisation "Groupes" pour contenir les groupes de domaine
-New-ADOrganizationalUnit -Name "Groupes" -Path "OU=INFORMATIQUE,DC=votre_domaine,DC=com"
-
-# Création de l'unité d'organisation "Ordinateurs" pour les ordinateurs membres du domaine
-New-ADOrganizationalUnit -Name "Ordinateurs" -Path "OU=INFORMATIQUE,DC=votre_domaine,DC=com"
+# Création de l'unité d'organisation "Ordinateurs" sous l'unité d'organisation "Informatique"
+New-ADOrganizationalUnit -Name "Ordinateurs" -Path "OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
 
 # Ajout d'un ordinateur fictif à l'unité d'organisation "Ordinateurs"
-New-ADComputer -Name "NomDeLordinateur" -Path "OU=Ordinateurs,OU=INFORMATIQUE,DC=votre_domaine,DC=com"
+New-ADComputer -Name "NomDeLordinateur" -Path "OU=Ordinateurs,OU=Informatique,DC=ETU1662413,DC=local"
+
+
+
+
+------------------------------------------------------------------------------------------------------------------
+# Création de l'unité d'organisation "Informatique" directement sous le domaine
+New-ADOrganizationalUnit -Name "Informatique" -Path "DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+# Les groupes du département "Informatique"
+$groupes = @(
+    "Concepteurs WEB",
+    "Programmeurs Android",
+    "Programmeurs Python",
+    "Techniciens du réseau",
+    "Testeurs de logiciels Android",
+    "Testeurs de logiciels Python"
+)
+
+# Création des unités d'organisation pour chaque groupe et ses employés et gestionnaires
+foreach ($groupe in $groupes) {
+    # Création de l'unité d'organisation pour le groupe
+    New-ADOrganizationalUnit -Name $groupe -Path "OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+    # Création de l'unité d'organisation pour les employés du groupe
+    New-ADOrganizationalUnit -Name "Employés" -Path "OU=$groupe,OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+    # Création de l'unité d'organisation pour les gestionnaires du groupe
+    New-ADOrganizationalUnit -Name "Gestionnaires" -Path "OU=$groupe,OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+}
+
+# Création de l'unité d'organisation "Groupes" sous l'unité d'organisation "Informatique"
+New-ADOrganizationalUnit -Name "Groupes" -Path "OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+# Création de l'unité d'organisation "Ordinateurs" sous l'unité d'organisation "Informatique"
+New-ADOrganizationalUnit -Name "Ordinateurs" -Path "OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+# Ajout d'un ordinateur fictif à l'unité d'organisation "Ordinateurs"
+New-ADComputer -Name "NomDeLordinateur" -Path "OU=Ordinateurs,OU=Informatique,DC=ETU1662413,DC=local"
+
+
