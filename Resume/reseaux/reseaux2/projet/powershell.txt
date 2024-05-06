@@ -1,47 +1,3 @@
-# Création de l'unité d'organisation "INFORMATIQUE" directement sous le domaine
-New-ADOrganizationalUnit -Name "INFORMATIQUE" -Path "DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-
-# Création de l'unité d'organisation "Utilisateurs" sous l'unité d'organisation "INFORMATIQUE"
-New-ADOrganizationalUnit -Name "Utilisateurs" -Path "OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-
-
-# Création des unités d'organisation pour les employés et les gestionnaires sous l'unité "Utilisateurs"
-	# Les concepteurs WEB
-	New-ADOrganizationalUnit -Name "ConcepteursWEB_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-	New-ADOrganizationalUnit -Name "ConcepteursWEB_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-
-	# Les programmeurs Android
-	New-ADOrganizationalUnit -Name "ProgrammeursAndroid_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-	New-ADOrganizationalUnit -Name "ProgrammeursAndroid_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-
-# Les programmeurs Python
-New-ADOrganizationalUnit -Name "ProgrammeursPython_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-New-ADOrganizationalUnit -Name "ProgrammeursPython_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-
-# Les techniciens du réseau
-New-ADOrganizationalUnit -Name "TechniciensReseau_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-New-ADOrganizationalUnit -Name "TechniciensReseau_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-
-# Les testeurs de logiciels Android
-New-ADOrganizationalUnit -Name "TesteursAndroid_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-New-ADOrganizationalUnit -Name "TesteursAndroid_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-
-# Les testeurs de logiciels Python
-New-ADOrganizationalUnit -Name "TesteursPython_Employes" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-New-ADOrganizationalUnit -Name "TesteursPython_Gestionnaires" -Path "OU=Utilisateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-
-
-# Création de l'unité d'organisation "Groupes" sous l'unité d'organisation "INFORMATIQUE"
-New-ADOrganizationalUnit -Name "Groupes" -Path "OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-
-
-# Création de l'unité d'organisation "Ordinateurs" sous l'unité d'organisation "INFORMATIQUE"
-New-ADOrganizationalUnit -Name "Ordinateurs" -Path "OU=INFORMATIQUE,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-
-
-# Ajout d'un ordinateur fictif à l'unité d'organisation "Ordinateurs"
-New-ADComputer -Name "NomDeLordinateur" -Path "OU=Ordinateurs,OU=INFORMATIQUE,DC=ETU1662413,DC=local" 
-
 
 ------------------------------------------------------------------------------------------------------------------
 Remove-ADOrganizationalUnit -Identity "OU=INFORMATIQUE,DC=ETU1662413,DC=local" -Recursive
@@ -49,41 +5,7 @@ Remove-ADOrganizationalUnit -Identity "OU=INFORMATIQUE,DC=ETU1662413,DC=local" -
 
 ------------------------------------------------------------------------------------------------------------------
 
-# Création de l'unité d'organisation "Informatique" directement sous le domaine
-New-ADOrganizationalUnit -Name "Informatique" -Path "DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-
-# Création des unités d'organisation pour les différents groupes
-$groupes = @(
-    "Concepteurs WEB",
-    "Programmeurs Android",
-    "Programmeurs Python",
-    "Techniciens du réseau",
-    "Testeurs de logiciels Android",
-    "Testeurs de logiciels Python"
-)
-
-foreach ($groupe in $groupes) {
-    # Création de l'unité d'organisation pour les employés
-    New-ADOrganizationalUnit -Name "$groupe Employés" -Path "OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-
-    # Création de l'unité d'organisation pour les gestionnaires
-    New-ADOrganizationalUnit -Name "$groupe Gestionnaires" -Path "OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-}
-
-# Création de l'unité d'organisation "Groupes" sous l'unité d'organisation "Informatique"
-New-ADOrganizationalUnit -Name "Groupes" -Path "OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-
-# Création de l'unité d'organisation "Ordinateurs" sous l'unité d'organisation "Informatique"
-New-ADOrganizationalUnit -Name "Ordinateurs" -Path "OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-
-# Ajout d'un ordinateur fictif à l'unité d'organisation "Ordinateurs"
-New-ADComputer -Name "NomDeLordinateur" -Path "OU=Ordinateurs,OU=Informatique,DC=ETU1662413,DC=local"
-
-
-
-
-------------------------------------------------------------------------------------------------------------------
-# Création de l'unité d'organisation "Informatique" directement sous le domaine
+## Création de l'unité d'organisation "Informatique" directement sous le domaine
 New-ADOrganizationalUnit -Name "Informatique" -Path "DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
 
 # Les groupes du département "Informatique"
@@ -102,7 +24,7 @@ foreach ($groupe in $groupes) {
     New-ADOrganizationalUnit -Name $groupe -Path "OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
 
     # Création de l'unité d'organisation pour les employés du groupe
-    New-ADOrganizationalUnit -Name "Employés" -Path "OU=$groupe,OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+    New-ADOrganizationalUnit -Name "Employes" -Path "OU=$groupe,OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
 
     # Création de l'unité d'organisation pour les gestionnaires du groupe
     New-ADOrganizationalUnit -Name "Gestionnaires" -Path "OU=$groupe,OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
@@ -116,5 +38,77 @@ New-ADOrganizationalUnit -Name "Ordinateurs" -Path "OU=Informatique,DC=ETU166241
 
 # Ajout d'un ordinateur fictif à l'unité d'organisation "Ordinateurs"
 New-ADComputer -Name "NomDeLordinateur" -Path "OU=Ordinateurs,OU=Informatique,DC=ETU1662413,DC=local"
+
+
+
+# Ajouter les utilisateurs aux groupes et à leurs unités d'organisation respectives
+$utilisateurs = Import-Csv "E:\_S1_INFO\PRATIQUE_ETU.csv" -Delimiter ";"
+
+foreach ($utilisateur in $utilisateurs) {
+    $matricule = $utilisateur.MATRICULE
+    $nomGroupe = ""
+    $ouPath = ""
+
+    if ($matricule -ge 10001 -and $matricule -le 19999) {
+        $nomGroupe = "Programmeurs Python/Employes"
+    }
+    elseif ($matricule -eq 10000) {
+        $nomGroupe = "Programmeurs Python/Gestionnaires"
+    }
+    elseif ($matricule -ge 20001 -and $matricule -le 29999) {
+        $nomGroupe = "Programmeurs Android/Employes"
+    }
+    elseif ($matricule -eq 20000) {
+        $nomGroupe = "Programmeurs Android/Gestionnaires"
+    }
+    elseif ($matricule -ge 30001 -and $matricule -le 39999) {
+        $nomGroupe = "Techniciens du réseau/Employes"
+    }
+    elseif ($matricule -eq 30000) {
+        $nomGroupe = "Techniciens du réseau/Gestionnaires"
+    }
+    elseif ($matricule -ge 40001 -and $matricule -le 49999) {
+        $nomGroupe = "Concepteurs WEB/Employes"
+    }
+    elseif ($matricule -eq 40000) {
+        $nomGroupe = "Concepteurs WEB/Gestionnaires"
+    }
+	elseif ($matricule -ge 50001 -and $matricule -le 59999) {
+        $nomGroupe = "Testeurs de logiciels Python/Employes"
+    }
+    elseif ($matricule -eq 50000) {
+        $nomGroupe = "Testeurs de logiciels Python/Gestionnaires"
+    }
+    elseif ($matricule -ge 60001 -and $matricule -le 69999) {
+        $nomGroupe = "Testeurs de logiciels Android/Employes"
+    }
+    elseif ($matricule -eq 60000) {
+        $nomGroupe = "Testeurs de logiciels Android/Gestionnaires"
+    }
+    
+    
+    # Création de l'utilisateur et ajout dans le groupe et l'OU appropriés
+    if (![string]::IsNullOrWhiteSpace($nomGroupe)) {
+        # Split the group name to extract the OU path
+        $groupParts = $nomGroupe -split "/"
+        $groupName = $groupParts[0]
+        $ouName = $groupParts[1]
+
+        # Construct the full OU path
+        $ouPath = "OU=$ouName,OU=$groupName,OU=Informatique,DC=ETU1662413,DC=local"
+        
+        $password = ConvertTo-SecureString "AAAaaa111" -AsPlainText -Force
+        New-ADUser -Name $utilisateur.NOM `
+         -SamAccountName $utilisateur.NOM `
+         -UserPrincipalName "$($utilisateur.NOM)@ETU1662413.local" `
+         -Path $ouPath `
+         -GivenName $utilisateur.NOM `
+         -Surname $utilisateur.NOM `
+         -DisplayName $utilisateur.PRENOM `
+         -AccountPassword $password `
+         -PasswordNeverExpires $true `
+         -Enabled $true
+    }
+}
 
 
