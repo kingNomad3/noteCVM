@@ -102,6 +102,7 @@ foreach ($utilisateur in $utilisateurs) {
          -SamAccountName $utilisateur.NOM `
          -UserPrincipalName "$($utilisateur.NOM)@ETU1662413.local" `
          -Path $ouPath `
+
          -GivenName $utilisateur.NOM `
          -Surname $utilisateur.NOM `
          -DisplayName $utilisateur.PRENOM `
@@ -112,3 +113,37 @@ foreach ($utilisateur in $utilisateurs) {
 }
 
 
+#--------------------------------------------------------------------------------------
+# Define variables
+$personalFolderRoot = "E:\_S1_PERSO"
+$administratorsGroup = "Administrateurs"
+$systemGroup = "SYSTEM"
+$personalFolderShareName = "PersonalFolders"
+$personalFolderSharePath = "$personalFolderRoot\$personalFolderShareName"
+$personalFolderAcl = "informatique  # Update this to the appropriate group or user
+$personalFolderPermissions = "Modify"
+$administratorsPermissions = "FullControl"
+$systemPermissions = "FullControl"
+
+# Create personal folder root
+New-Item -Path $personalFolderRoot -ItemType Directory
+
+# Set NTFS permissions on the personal folder root
+icacls.exe $personalFolderRoot /inheritance:r /grant "$($administratorsGroup):$administratorsPermissions" `
+    /grant "$($systemGroup):$systemPermissions" /grant "CREATOR OWNER:(OI)(CI)M" /T
+
+# Create personal folders for each user
+$utilisateurs | ForEach-Object {
+    $userName = $_.NOM
+    $userPersonalFolderPath = Join-Path -Path $personalFolderRoot -ChildPath $userName
+    New-Item -Path $userPersonalFolderPath -ItemType Directory
+
+    # Set NTFS permissions on the user's personal folder
+    icacls.exe $userPersonalFolderPath /inheritance:r /grant "$($_.NOM):$personalFolderPermissions" /T
+}
+
+# Share the personal folder root
+New-SmbShare -Name $personalFolderShareName -Path $personalFolderSharePath -FullAccess "Administrateurs"
+
+# Configure share permissions
+Set-SmbShare -Name $personalFolderShareName -FolderEnumerationMode AccessBased -Confirm:$false
