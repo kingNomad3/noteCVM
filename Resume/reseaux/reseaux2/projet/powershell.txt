@@ -8,6 +8,18 @@ Remove-ADOrganizationalUnit -Identity "OU=INFORMATIQUE,DC=ETU1662413,DC=local" -
 ## Création de l'unité d'organisation "Informatique" directement sous le domaine
 New-ADOrganizationalUnit -Name "Informatique" -Path "DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
 
+# Création de l'unité d'organisation "Groupes" sous l'unité d'organisation "Informatique"
+New-ADOrganizationalUnit -Name "Groupes" -Path "OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+# Création de l'unité d'organisation "Ordinateurs" sous l'unité d'organisation "Informatique"
+New-ADOrganizationalUnit -Name "Ordinateurs" -Path "OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+# Ajout d'un ordinateur fictif à l'unité d'organisation "Ordinateurs"
+New-ADComputer -Name "NomDeLordinateur" -Path "OU=Ordinateurs,OU=Informatique,DC=ETU1662413,DC=local"
+
+# Création de l'unité d'organisation "utilisateurs" sous l'unité d'organisation "Informatique"
+New-ADOrganizationalUnit -Name "Utilisateurs" -Path "OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
 # Les groupes du département "Informatique"
 $groupes = @(
     "Concepteurs WEB",
@@ -20,25 +32,19 @@ $groupes = @(
 
 # Création des unités d'organisation pour chaque groupe et ses employés et gestionnaires
 foreach ($groupe in $groupes) {
-    # Création de l'unité d'organisation pour le groupe
-    New-ADOrganizationalUnit -Name $groupe -Path "OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+    # Create the main group OU under "Informatique"
+    New-ADOrganizationalUnit -Name $groupe" -Path "OU=Utilisateurs,OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
 
-    # Création de l'unité d'organisation pour les employés du groupe
-    New-ADOrganizationalUnit -Name "Employes" -Path "OU=$groupe,OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+    # Create the main group OU under "Informatique"
+        New-ADGroup -Name "$groupe" -GroupScope Global -Path "OU=Groupes,OU=Informatique,DC=ETU1662413,DC=local"
 
-    # Création de l'unité d'organisation pour les gestionnaires du groupe
-    New-ADOrganizationalUnit -Name "Gestionnaires" -Path "OU=$groupe,OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+    # Create an OU for employees under each group
+    New-ADOrganizationalUnit -Name "Employes" -Path "OU=$groupe - Utilisateurs,OU=Utilisateurs,OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+    # Create an OU for managers under each group
+    New-ADOrganizationalUnit -Name "Gestionnaires" -Path "OU=$groupe - Utilisateurs,OU=Utilisateurs,OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
 }
-
-# Création de l'unité d'organisation "Groupes" sous l'unité d'organisation "Informatique"
-New-ADOrganizationalUnit -Name "Groupes" -Path "OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-
-# Création de l'unité d'organisation "Ordinateurs" sous l'unité d'organisation "Informatique"
-New-ADOrganizationalUnit -Name "Ordinateurs" -Path "OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
-
-# Ajout d'un ordinateur fictif à l'unité d'organisation "Ordinateurs"
-New-ADComputer -Name "NomDeLordinateur" -Path "OU=Ordinateurs,OU=Informatique,DC=ETU1662413,DC=local"
-
 
 
 # Ajouter les utilisateurs aux groupes et à leurs unités d'organisation respectives
@@ -50,66 +56,65 @@ foreach ($utilisateur in $utilisateurs) {
     $ouPath = ""
 
     if ($matricule -ge 10001 -and $matricule -le 19999) {
-        $nomGroupe = "Programmeurs Python/Employes"
+        $nomGroupe = "Utilisateurs/Programmeurs Python/Employes"
     }
     elseif ($matricule -eq 10000) {
-        $nomGroupe = "Programmeurs Python/Gestionnaires"
+        $nomGroupe =  "Utilisateurs/Programmeurs Python/Gestionnaires"
     }
     elseif ($matricule -ge 20001 -and $matricule -le 29999) {
-        $nomGroupe = "Programmeurs Android/Employes"
+        $nomGroupe = "Utilisateurs/Programmeurs Android/Employes"
     }
     elseif ($matricule -eq 20000) {
-        $nomGroupe = "Programmeurs Android/Gestionnaires"
+        $nomGroupe = "Utilisateurs/Programmeurs Android/Gestionnaires"
     }
     elseif ($matricule -ge 30001 -and $matricule -le 39999) {
-        $nomGroupe = "Techniciens du réseau/Employes"
+        $nomGroupe = "Utilisateurs/Techniciens du réseau/Employes"
     }
     elseif ($matricule -eq 30000) {
-        $nomGroupe = "Techniciens du réseau/Gestionnaires"
+        $nomGroupe = "Utilisateurs/Techniciens du réseau/Gestionnaires"
     }
     elseif ($matricule -ge 40001 -and $matricule -le 49999) {
-        $nomGroupe = "Concepteurs WEB/Employes"
+        $nomGroupe = "Utilisateurs/Concepteurs WEB/Employes"
     }
     elseif ($matricule -eq 40000) {
-        $nomGroupe = "Concepteurs WEB/Gestionnaires"
+        $nomGroupe = "Utilisateurs/Concepteurs WEB/Gestionnaires"
     }
 	elseif ($matricule -ge 50001 -and $matricule -le 59999) {
-        $nomGroupe = "Testeurs de logiciels Python/Employes"
+        $nomGroupe = "Utilisateurs/Testeurs de logiciels Python/Employes"
     }
     elseif ($matricule -eq 50000) {
-        $nomGroupe = "Testeurs de logiciels Python/Gestionnaires"
+        $nomGroupe = "Utilisateurs/Testeurs de logiciels Python/Gestionnaires"
     }
     elseif ($matricule -ge 60001 -and $matricule -le 69999) {
-        $nomGroupe = "Testeurs de logiciels Android/Employes"
+        $nomGroupe = "Utilisateurs/Testeurs de logiciels Android/Employes"
     }
     elseif ($matricule -eq 60000) {
-        $nomGroupe = "Testeurs de logiciels Android/Gestionnaires"
+        $nomGroupe = "Utilisateurs/Testeurs de logiciels Android/Gestionnaires"
     }
     
     
-    # Création de l'utilisateur et ajout dans le groupe et l'OU appropriés
-    if (![string]::IsNullOrWhiteSpace($nomGroupe)) {
-        # Split the group name to extract the OU path
-        $groupParts = $nomGroupe -split "/"
-        $groupName = $groupParts[0]
-        $ouName = $groupParts[1]
+   if (![string]::IsNullOrWhiteSpace($nomGroupe)) {
+    # Split the group name to extract the OU path parts
+    $groupParts = $nomGroupe -split "/"
+    $ouPath = "OU=$($groupParts[2]),OU=$($groupParts[1]),OU=$($groupParts[0]),OU=Informatique,DC=ETU1662413,DC=local"
+    
+    # Output the path for debugging
+    Write-Output "Attempting to create user in OU: $ouPath"
 
-        # Construct the full OU path
-        $ouPath = "OU=$ouName,OU=$groupName,OU=Informatique,DC=ETU1662413,DC=local"
-        
-        $password = ConvertTo-SecureString "AAAaaa111" -AsPlainText -Force
+    $password = ConvertTo-SecureString "AAAaaa111" -AsPlainText -Force
+
         New-ADUser -Name $utilisateur.NOM `
          -SamAccountName $utilisateur.NOM `
          -UserPrincipalName "$($utilisateur.NOM)@ETU1662413.local" `
          -Path $ouPath `
-
          -GivenName $utilisateur.NOM `
-         -Surname $utilisateur.NOM `
-         -DisplayName $utilisateur.PRENOM `
+         -Surname $utilisateur.PRENOM `
+         -DisplayName "$($utilisateur.PRENOM) $($utilisateur.NOM)" `
          -AccountPassword $password `
          -PasswordNeverExpires $true `
          -Enabled $true
-    }
+   
+}
 }
 
 
@@ -120,13 +125,10 @@ $administratorsGroup = "Administrateurs"
 $systemGroup = "SYSTEM"
 $personalFolderShareName = "PersonalFolders"
 $personalFolderSharePath = "$personalFolderRoot\$personalFolderShareName"
-$personalFolderAcl = "informatique  # Update this to the appropriate group or user
+$personalFolderAcl = "informatique" 
 $personalFolderPermissions = "Modify"
 $administratorsPermissions = "FullControl"
 $systemPermissions = "FullControl"
-
-# Create personal folder root
-New-Item -Path $personalFolderRoot -ItemType Directory
 
 # Set NTFS permissions on the personal folder root
 icacls.exe $personalFolderRoot /inheritance:r /grant "$($administratorsGroup):$administratorsPermissions" `
