@@ -33,10 +33,10 @@ $groupes = @(
 # Création des unités d'organisation pour chaque groupe et ses employés et gestionnaires
 foreach ($groupe in $groupes) {
     # Create the main group OU under "Informatique"
-    New-ADOrganizationalUnit -Name $groupe" -Path "OU=Utilisateurs,OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+    New-ADOrganizationalUnit -Name "$groupe - Utilisateurs" -Path "OU=Utilisateurs,OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
 
     # Create the main group OU under "Informatique"
-        New-ADGroup -Name "$groupe" -GroupScope Global -Path "OU=Groupes,OU=Informatique,DC=ETU1662413,DC=local"
+        New-ADGroup -Name "$groupe - Groupes" -GroupScope Global -Path "OU=Groupes,OU=Informatique,DC=ETU1662413,DC=local"
 
 
     # Create an OU for employees under each group
@@ -46,106 +46,139 @@ foreach ($groupe in $groupes) {
     New-ADOrganizationalUnit -Name "Gestionnaires" -Path "OU=$groupe - Utilisateurs,OU=Utilisateurs,OU=Informatique,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
 }
 
-
-# Ajouter les utilisateurs aux groupes et à leurs unités d'organisation respectives
+-----------------------------------------------------------------------------------------------------------------------------
+# Import user data from CSV
 $utilisateurs = Import-Csv "E:\_S1_INFO\PRATIQUE_ETU.csv" -Delimiter ";"
 
 foreach ($utilisateur in $utilisateurs) {
     $matricule = $utilisateur.MATRICULE
     $nomGroupe = ""
-    $ouPath = ""
 
+    # Determine the group and OU based on the matricule number
     if ($matricule -ge 10001 -and $matricule -le 19999) {
-        $nomGroupe = "Utilisateurs/Programmeurs Python/Employes"
+        $nomGroupe = "Employes/Programmeurs Python/Utilisateurs"
+    } elseif ($matricule -eq 10000) {
+        $nomGroupe = "Gestionnaires/Programmeurs Python/Utilisateurs"
+    } elseif ($matricule -ge 20001 -and $matricule -le 29999) {
+        $nomGroupe = "Employes/Programmeurs Android/Utilisateurs"
+    } elseif ($matricule -eq 20000) {
+        $nomGroupe = "Gestionnaires/Programmeurs Android/Utilisateurs"
+    } elseif ($matricule -ge 30001 -and $matricule -le 39999) {
+        $nomGroupe = "Employes/Techniciens du réseau/Utilisateurs"
+    } elseif ($matricule -eq 30000) {
+        $nomGroupe = "Gestionnaires/Techniciens du réseau/Utilisateurs"
+    } elseif ($matricule -ge 40001 -and $matricule -le 49999) {
+        $nomGroupe = "Employes/Concepteurs WEB/Utilisateurs"
+    } elseif ($matricule -eq 40000) {
+        $nomGroupe = "Gestionnaires/Concepteurs WEB/Utilisateurs"
+    } elseif ($matricule -ge 50001 -and $matricule -le 59999) {
+        $nomGroupe = "Employes/Testeurs de logiciels Python/Utilisateurs"
+    } elseif ($matricule -eq 50000) {
+        $nomGroupe = "Gestionnaires/Testeurs de logiciels Python/Utilisateurs"
+    } elseif ($matricule -ge 60001 -and $matricule -le 69999) {
+        $nomGroupe = "Employes/Testeurs de logiciels Android/Utilisateurs"
+    } elseif ($matricule -eq 60000) {
+        $nomGroupe = "Gestionnaires/Testeurs de logiciels Android/Utilisateurs"
     }
-    elseif ($matricule -eq 10000) {
-        $nomGroupe =  "Utilisateurs/Programmeurs Python/Gestionnaires"
-    }
-    elseif ($matricule -ge 20001 -and $matricule -le 29999) {
-        $nomGroupe = "Utilisateurs/Programmeurs Android/Employes"
-    }
-    elseif ($matricule -eq 20000) {
-        $nomGroupe = "Utilisateurs/Programmeurs Android/Gestionnaires"
-    }
-    elseif ($matricule -ge 30001 -and $matricule -le 39999) {
-        $nomGroupe = "Utilisateurs/Techniciens du réseau/Employes"
-    }
-    elseif ($matricule -eq 30000) {
-        $nomGroupe = "Utilisateurs/Techniciens du réseau/Gestionnaires"
-    }
-    elseif ($matricule -ge 40001 -and $matricule -le 49999) {
-        $nomGroupe = "Utilisateurs/Concepteurs WEB/Employes"
-    }
-    elseif ($matricule -eq 40000) {
-        $nomGroupe = "Utilisateurs/Concepteurs WEB/Gestionnaires"
-    }
-	elseif ($matricule -ge 50001 -and $matricule -le 59999) {
-        $nomGroupe = "Utilisateurs/Testeurs de logiciels Python/Employes"
-    }
-    elseif ($matricule -eq 50000) {
-        $nomGroupe = "Utilisateurs/Testeurs de logiciels Python/Gestionnaires"
-    }
-    elseif ($matricule -ge 60001 -and $matricule -le 69999) {
-        $nomGroupe = "Utilisateurs/Testeurs de logiciels Android/Employes"
-    }
-    elseif ($matricule -eq 60000) {
-        $nomGroupe = "Utilisateurs/Testeurs de logiciels Android/Gestionnaires"
-    }
-    
-    
-   if (![string]::IsNullOrWhiteSpace($nomGroupe)) {
-    # Split the group name to extract the OU path parts
-    $groupParts = $nomGroupe -split "/"
-    $ouPath = "OU=$($groupParts[2]),OU=$($groupParts[1]),OU=$($groupParts[0]),OU=Informatique,DC=ETU1662413,DC=local"
-    
-    # Output the path for debugging
-    Write-Output "Attempting to create user in OU: $ouPath"
 
-    $password = ConvertTo-SecureString "AAAaaa111" -AsPlainText -Force
-
-        New-ADUser -Name $utilisateur.NOM `
-         -SamAccountName $utilisateur.NOM `
-         -UserPrincipalName "$($utilisateur.NOM)@ETU1662413.local" `
-         -Path $ouPath `
-         -GivenName $utilisateur.NOM `
-         -Surname $utilisateur.PRENOM `
-         -DisplayName "$($utilisateur.PRENOM) $($utilisateur.NOM)" `
-         -AccountPassword $password `
-         -PasswordNeverExpires $true `
-         -Enabled $true
-   
+    if (![string]::IsNullOrWhiteSpace($nomGroupe)) {
+        # Split the group name to extract the OU path parts
+        $groupParts = $nomGroupe -split "/"
+        $ouPath = "OU=$groupParts[2],OU=$groupParts[1],OU=$groupParts[0],OU=Informatique,DC=ETU1662413,DC=local"
+	Write-Output $ouPath
+        $password = ConvertTo-SecureString "AAAaaa111" -AsPlainText -Force
+            New-ADUser -Name $utilisateur.MATRICULE `
+             -SamAccountName $utilisateur.NOM `
+             -UserPrincipalName "$($utilisateur.NOM)@ETU1662413.local" `
+             -Path $ouPath `
+             -GivenName $utilisateur.NOM `
+             -Surname $utilisateur.PRENOM `
+             -DisplayName "$($utilisateur.PRENOM) $($utilisateur.NOM)" `
+             -AccountPassword $password `
+             -PasswordNeverExpires $true `
+             -Enabled $true
+        
+    }
 }
-}
+------------------------------------------------------------------------------------------
+# Define base variables
+$rootFolder = "E:\_S1_PERSO"
+$departmentFolder = "E:\_S1_INFO"
+$namespacePath = "\\YourDomain\DFSinformatique"
 
-
-#--------------------------------------------------------------------------------------
-# Define variables
-$personalFolderRoot = "E:\_S1_PERSO"
+# Define groups and permissions
 $administratorsGroup = "Administrateurs"
 $systemGroup = "SYSTEM"
-$personalFolderShareName = "PersonalFolders"
-$personalFolderSharePath = "$personalFolderRoot\$personalFolderShareName"
-$personalFolderAcl = "informatique" 
-$personalFolderPermissions = "Modify"
-$administratorsPermissions = "FullControl"
-$systemPermissions = "FullControl"
+$employeesGroup = "Employees"
+$managersGroup = "Managers"
 
-# Set NTFS permissions on the personal folder root
-icacls.exe $personalFolderRoot /inheritance:r /grant "$($administratorsGroup):$administratorsPermissions" `
-    /grant "$($systemGroup):$systemPermissions" /grant "CREATOR OWNER:(OI)(CI)M" /T
+# Ensure the root and department folders exist
+New-Item -Path $rootFolder, $departmentFolder -ItemType Directory -Force
 
-# Create personal folders for each user
-$utilisateurs | ForEach-Object {
-    $userName = $_.NOM
-    $userPersonalFolderPath = Join-Path -Path $personalFolderRoot -ChildPath $userName
-    New-Item -Path $userPersonalFolderPath -ItemType Directory
+# Set base NTFS permissions on the root folder
+icacls $rootFolder /reset
+icacls $rootFolder /grant "Administrators:(OI)(CI)F" /grant "SYSTEM:(OI)(CI)F" /grant "CREATOR OWNER:(OI)(CI)M" /grant "Employees:(RX)" /grant "Managers:(RX)" /inheritance:r
 
-    # Set NTFS permissions on the user's personal folder
-    icacls.exe $userPersonalFolderPath /inheritance:r /grant "$($_.NOM):$personalFolderPermissions" /T
+# Import user data from CSV and create personal folders
+$utilisateurs = Import-Csv "E:\_S1_INFO\PRATIQUE_ETU.csv" -Delimiter ";"
+foreach ($user in $utilisateurs) {
+    $userFolder = Join-Path -Path $rootFolder -ChildPath $user.NOM
+    New-Item -Path $userFolder -ItemType Directory -Force
+    icacls $userFolder /reset /grant "$user.NOM:(OI)(CI)M" /grant "$administratorsGroup:(OI)(CI)F" /inheritance:r
+
+    # Share each user's personal folder
+    New-SmbShare -Name $user.NOM -Path $userFolder -FullAccess $administratorsGroup
+    Set-SmbShare -Name $user.NOM -FolderEnumerationMode AccessBased -Confirm:$false
 }
 
-# Share the personal folder root
-New-SmbShare -Name $personalFolderShareName -Path $personalFolderSharePath -FullAccess "Administrateurs"
+# Share the entire personal folder root
+New-SmbShare -Name "PersonalFolders" -Path $rootFolder -FullAccess $administratorsGroup
+Set-SmbShare -Name "PersonalFolders" -FolderEnumerationMode AccessBased -Confirm:$false
 
-# Configure share permissions
-Set-SmbShare -Name $personalFolderShareName -FolderEnumerationMode AccessBased -Confirm:$false
+# Setup departmental folders in DFS
+$departmentFolders = @("CONCEPTEURS_WEB", "PROGRAMMATION_ANDROID", "PROGRAMMATION_PYTHON", "TECHNICIENS", "TESTEURS_ANDROID", "TESTEURS_PYTHON")
+foreach ($folder in $departmentFolders) {
+    $folderPath = Join-Path -Path $departmentFolder -ChildPath $folder
+    New-Item -Path $folderPath -ItemType Directory -Force
+    New-DfsnFolder -Path "$namespacePath\$folder" -TargetPath $folderPath
+
+    # Optional: Add additional server targets if needed
+    # New-DfsnFolderTarget -Path "$namespacePath\$folder" -TargetPath "\\Server2\$folder"
+}
+
+
+# Define base variables
+$rootFolder = "E:\_S1_PERSO"
+$departmentFolder = "E:\_S1_INFO"
+$namespacePath = "\\YourDomain\DFSinformatique"
+
+# Define groups and permissions
+$administratorsGroup = "Administrateurs"
+$systemGroup = "SYSTEM"
+$employeesGroup = "Employees"
+$managersGroup = "Managers"
+
+# Ensure the root and department folders exist
+New-Item -Path $rootFolder, $departmentFolder -ItemType Directory -Force
+
+# Set base NTFS permissions on the root folder
+icacls $rootFolder /reset
+icacls $rootFolder /grant "Administrators:(OI)(CI)F" /grant "SYSTEM:(OI)(CI)F" /grant "CREATOR OWNER:(OI)(CI)M" /grant "Employees:(RX)" /grant "Managers:(RX)" /inheritance:r
+
+# Import user data from CSV and create personal folders
+$utilisateurs = Import-Csv "E:\_S1_INFO\PRATIQUE_ETU.csv" -Delimiter ";"
+foreach ($user in $utilisateurs) {
+    $userFolder = Join-Path -Path $rootFolder -ChildPath $user.NOM
+    New-Item -Path $userFolder -ItemType Directory -Force
+
+    # Correctly format the command to avoid parsing errors
+    icacls $userFolder /reset
+    icacls $userFolder /grant "${user.NOM}:(OI)(CI)M" /grant "${administratorsGroup}:(OI)(CI)F" /inheritance:r
+}
+
+# Share the entire personal folder root
+New-SmbShare -Name "PersonalFolders" -Path $rootFolder -FullAccess $administratorsGroup
+Set-SmbShare -Name "PersonalFolders" -FolderEnumerationMode AccessBased -Confirm:$false
+
+New-SmbShare -Name "DepartementFolder" -Path $departmentFolder -FullAccess $administratorsGroup
+Set-SmbShare -Name "DepartementFolder" -FolderEnumerationMode AccessBased -Confirm:$false
