@@ -1,0 +1,34 @@
+
+# Ajouter les utilisateurs aux groupes et à leurs unités d'organisation respectives
+$utilisateurs = Import-Csv "E:\_S1_INFO\PRATIQUE_ETU.csv" -Delimiter ";"
+
+foreach ($utilisateur in $utilisateurs) {
+    $matricule = $utilisateur.MATRICULE
+    $nomGroupe = switch -Wildcard ($matricule) {
+        {$_ -ge 10000 -and $_ -le 19999} { "Concepteurs WEB" }
+        {$_ -eq 10000} { "ProgrammeursPython_Gestionnaires" }
+        {$_ -ge 20000 -and $_ -le 29999} { "Programmeurs Android" }
+        {$_ -eq 20000} { "ProgrammeursAndroid_Gestionnaires" }
+        {$_ -ge 30000 -and $_ -le 39999} { "Programmeurs Python" }
+        {$_ -eq 30000} { "TechniciensReseau_Gestionnaires" }
+        {$_ -ge 40000 -and $_ -le 49999} { "Techniciens du réseau" }
+        {$_ -eq 40000} { "ConcepteursWEB_Gestionnaires" }
+        {$_ -ge 60000 -and $_ -le 69999} { "Testeurs de logiciels Android" }
+        {$_ -eq 60000} { "TesteursAndroid_Gestionnaires" }
+        {$_ -ge 50000 -and $_ -le 59999} { "Testeurs de logiciels Python" }
+        {$_ -eq 50000} { "TesteursPython_Gestionnaires" }
+        default { "" }
+    }
+    
+    # Si l'utilisateur est un gestionnaire
+    if ($matricule -eq 10000 -or $matricule -eq 20000 -or $matricule -eq 30000 -or $matricule -eq 40000 -or $matricule -eq 50000 -or $matricule -eq 60000) {
+        $nomGroupeGestionnaires = $nomGroupe -replace "_Employes", "_Gestionnaires"
+        Add-ADGroupMember -Identity $nomGroupeGestionnaires -Members $utilisateur.NOM
+	
+    }
+	# Déplacer l'utilisateur vers son unité d'organisation respective
+	if (![string]::IsNullOrWhiteSpace($nomGroupe)) {
+		Move-ADObject -Identity "CN=$($utilisateur.NOM),OU=Utilisateurs,OU=Informatique,DC=ETU1662413,DC=local" -TargetPath "OU=$nomGroupe\Employés,OU=$nomGroupe,OU=Informatique,DC=ETU1662413,DC=local"
+	}
+
+}

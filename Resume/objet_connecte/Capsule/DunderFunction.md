@@ -153,6 +153,16 @@ reversed_seq = reversed(seq)
 print(list(reversed_seq))  # Output: [5, 4, 3, 2, 1]
 ```
 
+__getitem__
+def __init__(self,values):
+def__getitem__(self,value):
+return self.__values[value+1]. 
+
+a= A([1,2,3])
+print(a=1)
+
+#print true, false false
+
 ## Buffer Circulaire
 - Concept de gestion de mémoire où, après avoir atteint la capacité maximale, les indices recommencent à zéro.
 ```python
