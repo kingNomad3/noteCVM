@@ -1,0 +1,35 @@
+## Création de l'unité d'organisation "Informatique" directement sous le domaine
+New-ADOrganizationalUnit -Name "DEPT1662413" -Path "DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+# Création de l'unité d'organisation "Groupes" sous l'unité d'organisation "Informatique"
+New-ADOrganizationalUnit -Name "Groupes" -Path "OU=DEPT1662413,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+# Création de l'unité d'organisation "Ordinateurs" sous l'unité d'organisation "Informatique"
+New-ADOrganizationalUnit -Name "Ordinateurs" -Path "OU=DEPT1662413,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+# Ajout d'un ordinateur fictif à l'unité d'organisation "Ordinateurs"
+New-ADComputer -Name "NomDeLordinateur" -Path "OU=Ordinateurs,OU=DEPT1662413,DC=ETU1662413,DC=local"
+
+# Création de l'unité d'organisation "utilisateurs" sous l'unité d'organisation "Informatique"
+New-ADOrganizationalUnit -Name "Utilisateurs" -Path "OU=DEPT1662413,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+# Les groupes du département "Informatique"
+$groupes = @(
+    "Programmeurs Python"
+)
+
+# Création des unités d'organisation pour chaque groupe et ses employés et gestionnaires
+foreach ($groupe in $groupes) {
+    # Create the main group OU under "Informatique"
+    New-ADOrganizationalUnit -Name "$groupe - Utilisateurs" -Path "OU=Utilisateurs,OU=DEPT1662413,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+    # Create the main group OU under "Informatique"
+    New-ADGroup -Name "$groupe - Groupes" -GroupScope Global -Path "OU=Groupes,OU=DEPT1662413,DC=ETU1662413,DC=local"
+
+
+    # Create an OU for employees under each group
+    New-ADOrganizationalUnit -Name "Employes" -Path "OU=$groupe - Utilisateurs,OU=Utilisateurs,OU=DEPT1662413,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+
+    # Create an OU for managers under each group
+    New-ADOrganizationalUnit -Name "Gestionnaires" -Path "OU=$groupe - Utilisateurs,OU=Utilisateurs,OU=DEPT1662413,DC=ETU1662413,DC=local" -ProtectedFromAccidentalDeletion $false
+}
